@@ -10,8 +10,16 @@ https://discord.gg/vapev4
 
 
 # To do list
-Seperate ui lib and features ❎ <br>
-add an arraylist ❎ <br>
-add a watermark ❎ <br>
-add teamcheck to killaura ❎ <br>
-use the keys name instead of they keys number in keybind button ❎ <br>
+ - make keybind work [x]<br>
+ - killaura [x]<br>
+ - eagle [x]<br>
+ - scaffold [x]<br>
+ - reach [x]<br> 
+ - make ui lib [x]<br>
+ - velocity [ ]<br>
+ - noclickdelay [ ]<br>
+ - Seperate ui lib and features [ ]<br>
+ - add an arraylist [ ]<br>
+ - add a watermark [ ]<br>
+ - add teamcheck to killaura [ ]<br>
+ - use the keys name instead of they keys number in keybind button [ ]<br>
