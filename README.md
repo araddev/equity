@@ -5,6 +5,8 @@ this is my first ever Lua script. If you want to improve the scripts code or add
 # How to reach us
 Join our discord server!<br>
 https://discord.gg/gwNUz8APfx
+Join Elysium!<br>
+https://discord.gg/vapev4
 
 
 # To do list
