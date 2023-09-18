@@ -68,7 +68,7 @@ function FluxLib:NewGui(GuiProperties)
 	ServerLocation.FontSize = 15
 	ServerLocation.Position = UDim2.new(0, 12, 0, 31)
 	
-	SideBarParent.Size = UDim2.new(0, 120, 0, 245)
+	SideBarParent.Size = UDim2.new(0, 120, 0, SizeY)
 	SideBarParent.BackgroundTransparency = 1
 	SideBarParent.ClipsDescendants = true
 	
@@ -450,11 +450,7 @@ Tab1:NewToggle({
 	Text = "Eagle",
 	ItemDescription = "Auto place or god bridge basically",
 	CallbackFunction = function(Callback)
-		if Eagle then
-		Eagle = false
-		else
-		Eagle = true
-		end
+		Eagle = not Eagle
 	end
 })
 
@@ -462,11 +458,7 @@ Tab1:NewToggle({
 	Text = "Reach",
 	ItemDescription = "Extends reach",
 	CallbackFunction = function(Callback)
-		if ReachToggle then
-			ReachToggle = false
-			else
-			ReachToggle = true
-		end
+		ReachToggle = not ReachToggle
 	end
 })
 
@@ -474,11 +466,7 @@ Tab1:NewToggle({
 	Text = "Velocity",
 	ItemDescription = "Low knockback",
 	CallbackFunction = function(Callback)
-		if VelocityToggle then
-		VelocityToggle = false
-		else
-		VelocityToggle = true
-		end
+		VelocityToggle = not VelocityToggle
 	end
 })
 
@@ -498,11 +486,7 @@ Tab2:NewToggle({
 	Text = "Kill Aura",
 	ItemDescription = "Automatically kills people and shit",
 	CallbackFunction = function(Callback)
-		if Killaura then
-		Killaura = false
-		else
-		Killaura = true
-		end
+		Killaura = not Killaura
 	end
 })
 
@@ -510,11 +494,7 @@ Tab2:NewToggle({
 	Text = "Scaffold",
 	ItemDescription = "Automatically places blocks !",
 	CallbackFunction = function(Callback)
-		if Scaffold then
-		Scaffold = false
-		else
-		Scaffold = true
-		end
+		Scaffold = not Scaffold
 	end
 })
 
