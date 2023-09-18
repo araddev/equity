@@ -21,7 +21,7 @@ function FluxLib:NewGui(GuiProperties)
 	end
 	
 	local SizeX = GuiProperties.SizeX or 370
-	local SizeY = GuiProperties.SizeY or 245
+	local SizeY = 290
 	local TitleText = GuiProperties.Title and string.upper(GuiProperties.Title) or "GUI"
 	local DescText = GuiProperties.Desc or "Preview"
 	local Player = game:GetService("Players").LocalPlayer
@@ -72,12 +72,12 @@ function FluxLib:NewGui(GuiProperties)
 	SideBarParent.BackgroundTransparency = 1
 	SideBarParent.ClipsDescendants = true
 	
-	SideBar.Size = UDim2.new(0, 125, 0, 245)
+	SideBar.Size = UDim2.new(0, 125, 0, SizeY)
 	SideBar.BackgroundColor3 = Color3.fromHex("#13121e")
 	SideBar.BorderSizePixel = 0
 	SideBar.CornerRadius = CornerRadius.new(5, 5, 5, 5)
 	
-	SideBarItemList.Size = UDim2.new(0, 125, 0, 198)
+	SideBarItemList.Size = UDim2.new(0, 125, 0, SizeY - 47)
 	SideBarItemList.BackgroundTransparency = 1
 	SideBarItemList.BorderSizePixel = 0
 	SideBarItemList.VerticalAlignment = "bottom"
@@ -138,7 +138,7 @@ function FluxLib:NewGui(GuiProperties)
 		TabItemTitle.Position = UDim2.new(0, 25, 0, 1)
 		
 		ItemContainer.BackgroundColor3 = Color3.fromRGB(255, 255,255)
-		ItemContainer.Size = UDim2.new(0, 250, 0, 230)
+		ItemContainer.Size = UDim2.new(0, 250, 0, SizeY - 15)
 		ItemContainer.VerticalAlignment = "Bottom"
 		ItemContainer.BorderSizePixel = 0
 		ItemContainer.BackgroundTransparency = 1
