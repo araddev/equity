@@ -82,7 +82,7 @@ function FluxLib:NewGui(GuiProperties)
 	SideBarItemList.BorderSizePixel = 0
 	SideBarItemList.VerticalAlignment = "bottom"
 	
-	UIListLayout.Padding = UDim.new(3, 0)
+	UIListLayout.Padding = UDim.new(3, 1)
 	UIListLayout.ChildrenHorizontalAlignment = "Center"
 	
 	UIListLayout.Parent = SideBarItemList
@@ -120,8 +120,9 @@ function FluxLib:NewGui(GuiProperties)
 		local ItemContainer = Instance.new("Frame")
 		local ItemListLayout = Instance.new("UIListLayout")
 		
-		TabItem.Size = UDim2.new(0, 125, 0, 24)
+		TabItem.Size = UDim2.new(0, 100, 0, 24)
 		TabItem.BorderSizePixel = 0
+		TabItem.Radius = 5
 		TabItem.BackgroundColor3 = AccentColor
 		TabItem.BackgroundTransparency = Active and 0 or 1
 		
@@ -325,7 +326,7 @@ function FluxLib:NewGui(GuiProperties)
 
 			Description.Parent = ItemButton
 			Description.Text = ItemDescription
-			Description.FontSize = 15
+			Description.FontSize = 14
 			Description.TextColor3 = Color3.fromHex("#83868b")
 			Description.Position = UDim2.new(0, 9, 0, 24)
 			
