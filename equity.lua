@@ -62,10 +62,10 @@ function FluxLib:NewGui(GuiProperties)
 	Desc.Text = DescText
 	Desc.Font = GothamSSm_Medium -- cant fucking use discord cdn because its blocked in iran
 	Desc.Position = UDim2.new(0, 12, 0, 33)
-	Desc.FontSize = 14	
+	Desc.TextSize = 14	
 	Desc.TextColor3 = Color3.fromRGB(225,225,225);
 	
-	ServerLocation.FontSize = 15
+	ServerLocation.TextSize = 15
 	ServerLocation.Position = UDim2.new(0, 12, 0, 31)
 	
 	SideBarParent.Size = UDim2.new(0, 120, 0, SizeY)
@@ -133,7 +133,7 @@ function FluxLib:NewGui(GuiProperties)
 		TabItemIcon.Position = UDim2.new(0, 6, 0, 0)
 		
 		TabItemTitle.Text = TabName
-		TabItemTitle.FontSize = 16
+		TabItemTitle.TextSize = 16
 		TabItemTitle.Font = "SourceSansPro-SemiBold"
 		TabItemTitle.VerticalAlignment = "Center"
 		TabItemTitle.Position = UDim2.new(0, 25, 0, 1)
@@ -201,7 +201,7 @@ function FluxLib:NewGui(GuiProperties)
 			ItemButtonTitle.VerticalAlignment = "Center"
 			ItemButtonTitle.Position = UDim2.new(0, 22, 0, 1)
 			ItemButtonTitle.Text = Text
-			ItemButtonTitle.FontSize = 16
+			ItemButtonTitle.TextSize = 16
 			
 			OuterCircle.Size = UDim2.new(0, 16, 0, 7)
 			OuterCircle.Position = UDim2.new(0, -11, 0, 0)
@@ -251,7 +251,7 @@ function FluxLib:NewGui(GuiProperties)
 
 			TextComponent.VerticalAlignment = "Center"
 			TextComponent.TextColor3 = Color3.fromRGB(190, 190, 190)
-			TextComponent.FontSize = 14
+			TextComponent.TextSize = 14
 			TextComponent.HorizontalAlignment = "Left"
 			TextComponent.Text = Text
 			TextComponent.Font = GothamSSm_Medium
@@ -289,7 +289,7 @@ function FluxLib:NewGui(GuiProperties)
 			KeyBindButton.HorizontalAlignment = "Right"
 			KeyBindButton.VerticalAlignment = "Center"
 			KeyBindButton.Radius = 10
-			KeyBindButton.FontSize = 18.5
+			KeyBindButton.TextSize = 18.5
 			KeyBindButton.PaddingTop = 1
 			KeyBindButton.BorderSizePixel = 0
 			KeyBindButton.BackgroundColor3 = Color3.fromHex("#2a2a48")
@@ -326,7 +326,7 @@ function FluxLib:NewGui(GuiProperties)
 
 			Description.Parent = ItemButton
 			Description.Text = ItemDescription
-			Description.FontSize = 14
+			Description.TextSize = 14
 			Description.TextColor3 = Color3.fromHex("#83868b")
 			Description.Position = UDim2.new(0, 9, 0, 24)
 			
@@ -340,7 +340,7 @@ function FluxLib:NewGui(GuiProperties)
 			ItemButtonTitle.VerticalAlignment = "Center"
 			ItemButtonTitle.Position = UDim2.new(0, 22, 0, -4)
 			ItemButtonTitle.Text = Text
-			ItemButtonTitle.FontSize = 16
+			ItemButtonTitle.TextSize = 16
 			
 			OuterCircle.Size = UDim2.new(0, 16, 0, 7)
 			OuterCircle.Position = UDim2.new(0, -11, 0, 0)
