@@ -382,7 +382,65 @@ function FluxLib:NewGui(GuiProperties)
 			OuterCircle.Parent = ItemButton
 			InnerCircle.Parent = OuterCircle
 		end
-		
+
+		function Tab:NewTextBox(ToggleProperties)
+			local Text = ToggleProperties.Text or "Text"
+			local ItemDescription = ToggleProperties.ItemDescription or "Description"
+			local CallbackFunction = ToggleProperties.CallbackFunction
+			
+			local ItemButton = Instance.new("TextButton")
+			local Circle = Instance.new("Frame")
+			local ItemButtonTitle = Instance.new("TextLabel")
+			local Description = Instance.new("TextLabel")
+			local TextBox = Instance.new("TextBox")
+			
+			ItemButton.Size = UDim2.new(0, 225, 0, 40)
+			ItemButton.Font = Poppins_SemiBold
+			ItemButton.BorderSizePixel = 0
+			ItemButton.BackgroundColor3 = Color3.fromHex("#12121e")
+			ItemButton.CornerRadius = CornerRadius.new(6, 6, 6, 6)
+
+			TextBox.Size = UDim2.new(0, 50, 0, 15)
+			TextBox.Position = UDim2.new(0, -10, 0, 0)
+			TextBox.HorizontalAlignment = "Right"
+			TextBox.VerticalAlignment = "Center"
+			TextBox.Radius = 10
+			TextBox.TextSize = 16
+			TextBox.PaddingTop = 1
+			TextBox.TextWrapped = true
+			TextBox.TextEditable = true
+			TextBox.ClearTextOnFocus = false
+			TextBox.BorderSizePixel = 0
+			TextBox.BackgroundColor3 = Color3.fromHex("#2a2a48")
+			TextBox.TextColor3 = Color3.fromHex("#ffffff")
+			TextBox.TextChanged:Connect(function()
+				TextBox.Text = "a"
+			end)
+
+			Description.Parent = ItemButton
+			Description.Text = ItemDescription
+			Description.TextSize = 14
+			Description.TextColor3 = Color3.fromHex("#83868b")
+			Description.Position = UDim2.new(0, 9, 0, 24)
+			
+			Circle.Size = UDim2.new(0, 7, 0, 7)
+			Circle.Position = UDim2.new(0, 9, 0, -5)
+			Circle.CornerRadius = CornerRadius.new(6, 6, 6, 6)
+			Circle.BackgroundColor3 = Color3.fromHex("#d3d3d3")
+			Circle.BorderSizePixel = 0
+			Circle.VerticalAlignment = "Center"
+			
+			ItemButtonTitle.VerticalAlignment = "Center"
+			ItemButtonTitle.Position = UDim2.new(0, 22, 0, -4)
+			ItemButtonTitle.Text = Text
+			ItemButtonTitle.TextSize = 16
+			
+			Circle.Parent = ItemButton
+			TextBox.Parent = ItemButton
+			ItemButton.Parent = ItemContainer
+			ItemButtonTitle.Parent = ItemButton
+		end
+
 		GuiTabs[#GuiTabs + 1] = {Active = Active, TabItem = TabItem, ItemContainer = ItemContainer}
 		return Tab
 	end
@@ -434,6 +492,14 @@ local counter = 0
 UI:NewToggle({
 	Text = "Transparent UI",
 	ItemDescription = "This thing is so cool",
+	CallbackFunction = function(Callback)
+		
+	end
+})
+
+UI:NewTextBox({
+	Text = "Foreground",
+	ItemDescription = "Customize the foreground color of the UI.",
 	CallbackFunction = function(Callback)
 		
 	end
