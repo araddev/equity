@@ -120,9 +120,8 @@ function FluxLib:NewGui(GuiProperties)
 		local ItemContainer = Instance.new("Frame")
 		local ItemListLayout = Instance.new("UIListLayout")
 		
-		TabItem.Size = UDim2.new(0, 100, 0, 24)
+		TabItem.Size = UDim2.new(0, 125, 0, 24)
 		TabItem.BorderSizePixel = 0
-		TabItem.Radius = 5
 		TabItem.BackgroundColor3 = AccentColor
 		TabItem.BackgroundTransparency = Active and 0 or 1
 		
@@ -386,6 +385,7 @@ function FluxLib:NewGui(GuiProperties)
 		function Tab:NewTextBox(ToggleProperties)
 			local Text = ToggleProperties.Text or "Text"
 			local ItemDescription = ToggleProperties.ItemDescription or "Description"
+			local ItemContent = ToggleProperties.ItemContent or "TextBox"
 			local CallbackFunction = ToggleProperties.CallbackFunction
 			
 			local ItemButton = Instance.new("TextButton")
@@ -414,8 +414,9 @@ function FluxLib:NewGui(GuiProperties)
 			TextBox.BackgroundColor3 = Color3.fromHex("#2a2a48")
 			TextBox.TextColor3 = Color3.fromHex("#ffffff")
 			TextBox.TextChanged:Connect(function()
-				TextBox.Text = "a"
+				CallbackFunction()
 			end)
+			TextBox.Text = ToggleProperties.ItemContent
 
 			Description.Parent = ItemButton
 			Description.Text = ItemDescription
@@ -500,6 +501,7 @@ UI:NewToggle({
 UI:NewTextBox({
 	Text = "Foreground",
 	ItemDescription = "Customize the foreground color of the UI.",
+	ItemContent = "OH MY GOD",
 	CallbackFunction = function(Callback)
 		
 	end
@@ -783,8 +785,6 @@ Script.MouseClick1:Connect(function(e)
 		DoReach()
 	end
 end)
-
-
 
 Script.Update:Connect(function()
     --killaura handler
