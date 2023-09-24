@@ -710,7 +710,7 @@ function AttackClosest()
     for _, Entity in ipairs(Entities) do
         --print(Entity:getName())
         local distance = localPlayer:GetDistanceToEntity(Entity.entityObject)
-        if (distance < closestDistance) and (Entity.entityObject ~= PlayerEntity) then
+		if (distance < closestDistance) and (Entity.entityObject ~= PlayerEntity) and (not localPlayer:IsOnSameTeam(Entity.entityObject)) then
             closestDistance = distance
             closestEntity = Entity
         end
@@ -771,7 +771,7 @@ function DoVelocity()
 end
 
 Script.ReceivePacket:Connect(function(e)
-	if VelocityToggle == true then
+	if VelocityToggle then
 		DoVelocity()
     end
 end)
@@ -781,23 +781,23 @@ function DoReach()
 end
 
 Script.MouseClick1:Connect(function(e)
-	if ReachToggle == true then
+	if ReachToggle then
 		DoReach()
 	end
 end)
 
 Script.Update:Connect(function()
     --killaura handler
-	if Killaura == true then
+	if Killaura then
 		AttackClosest()
     end
 
-	if Scaffold == true then 
+	if Scaffold then 
 		DoScaffold()
 	end
 
 	-- eagle handler
-	if Eagle == true then
+	if Eagle then
 		DoEagle()
     end
 end)
