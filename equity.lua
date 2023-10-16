@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("a"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/araddev/equity/main/equity_uilib.lua"))()
 
 local Workspace = game:GetService("Workspace")
 local EntityService = game:GetService("EntityService")
