@@ -448,5 +448,7 @@ function FluxLib:NewGui(GuiProperties)
 		return Tab
 	end
 	
-	return FluxLib
+	return Gui
 end
+
+return FluxLib
