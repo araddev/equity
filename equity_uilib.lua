@@ -60,7 +60,7 @@ function FluxLib:NewGui(GuiProperties)
     ItemItemContainer.Size = UDim2.new(0, 250, 0, SizeY - 15)
     ItemItemContainer.VerticalAlignment = "Bottom"
     ItemItemContainer.BorderSizePixel = 0
-    ItemItemContainer.BackgroundTransparency = 1
+    ItemItemContainer.BackgroundTransparency = 0
     ItemItemContainer.HorizontalAlignment = "Right"
 
 	Title.Text = TitleText
