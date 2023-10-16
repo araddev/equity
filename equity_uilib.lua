@@ -60,7 +60,7 @@ function FluxLib:NewGui(GuiProperties)
     ItemItemContainer.Size = UDim2.new(0, 250, 0, SizeY - 15)
     ItemItemContainer.VerticalAlignment = "Bottom"
     ItemItemContainer.BorderSizePixel = 0
-    ItemItemContainer.BackgroundTransparency = 0
+    ItemItemContainer.BackgroundTransparency = 1
     ItemItemContainer.HorizontalAlignment = "Right"
 
 	Title.Text = TitleText
@@ -149,11 +149,11 @@ function FluxLib:NewGui(GuiProperties)
 		TabItemTitle.Position = UDim2.new(0, 25, 0, 1)
 		
 		ItemContainer.BackgroundColor3 = Color3.fromRGB(255, 255,255)
-		ItemContainer.Size = UDim2.new(0, 250, 0, SizeY - 15)
+		ItemContainer.Size = UDim2.new(0, 250, 0, SizeY - 30)
 		ItemContainer.VerticalAlignment = "Bottom"
 		ItemContainer.BorderSizePixel = 0
 		ItemContainer.BackgroundTransparency = 1
-		ItemContainer.HorizontalAlignment = "Right"
+		ItemContainer.HorizontalAlignment = "Center"
 		ItemContainer.Visible = Active
 		
 		ItemListLayout.Padding = UDim.new(3, 1)
