@@ -18,7 +18,7 @@ https://discord.gg/vapev4
  - [x] make ui lib<br>
  - [ ] velocity<br>
  - [ ] noclickdelay<br>
- - [ ] Seperate ui lib and features<br>
+ - [x] Seperate ui lib and features<br>
  - [ ] add an arraylist<br>
  - [ ] add a watermark<br>
  - [ ] add teamcheck to killaura<br>
