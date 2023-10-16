@@ -28,6 +28,7 @@ function FluxLib:NewGui(GuiProperties)
 	local Mouse = Player:GetMouse()
 	local ScreenGui = Instance.new("ScreenGui")
 	local Frame = Instance.new("Frame")
+    local ItemItemContainer = Instance.new("Frame")
 	local SideBarParent = Instance.new("Frame")
 	local SideBar = Instance.new("Frame")
 	local Title = Instance.new("TextLabel")
@@ -54,6 +55,13 @@ function FluxLib:NewGui(GuiProperties)
 	Frame.VerticalAlignment = "Center"
 	Frame.HorizontalAlignment = "Center"
 	Frame.ClipsDescendants = true
+
+    ItemItemContainer.BackgroundColor3 = Color3.fromRGB(255, 255,255)
+    ItemItemContainer.Size = UDim2.new(0, 250, 0, SizeY - 15)
+    ItemItemContainer.VerticalAlignment = "Bottom"
+    ItemItemContainer.BorderSizePixel = 0
+    ItemItemContainer.BackgroundTransparency = 1
+    ItemItemContainer.HorizontalAlignment = "Right"
 
 	Title.Text = TitleText
 	Title.Font = GothamSSm
@@ -86,6 +94,7 @@ function FluxLib:NewGui(GuiProperties)
 	UIListLayout.ChildrenHorizontalAlignment = "Center"
 	
 	UIListLayout.Parent = SideBarItemList
+    ItemItemContainer.Parent = Frame
 	SideBarItemList.Parent = SideBar
 	ServerLocation.Parent = SideBar
 	Title.Parent = SideBar
@@ -153,7 +162,7 @@ function FluxLib:NewGui(GuiProperties)
 		TabItem.Parent = SideBarItemList
 		TabItemIcon.Parent = TabItem
 		TabItemTitle.Parent = TabItem
-		ItemContainer.Parent = Frame
+		ItemContainer.Parent = ItemItemContainer
 		ItemListLayout.Parent = ItemContainer
 		
 		TabItem.MouseButton1Click:Connect(function()
