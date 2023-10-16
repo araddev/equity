@@ -149,7 +149,7 @@ function FluxLib:NewGui(GuiProperties)
 		TabItemTitle.Position = UDim2.new(0, 25, 0, 1)
 		
 		ItemContainer.BackgroundColor3 = Color3.fromRGB(255, 255,255)
-		ItemContainer.Size = UDim2.new(0, 210, 0, SizeY - 15)
+		ItemContainer.Size = UDim2.new(0, 240, 0, SizeY - 15)
 		ItemContainer.VerticalAlignment = "Bottom"
 		ItemContainer.BorderSizePixel = 0
 		ItemContainer.BackgroundTransparency = 1
@@ -256,7 +256,7 @@ function FluxLib:NewGui(GuiProperties)
 			local TextComponent = Instance.new("TextLabel")
 			local TextContainer = Instance.new("Frame")
 
-			TextContainer.Size = UDim2.new(0, 225, 0, 17)
+			TextContainer.Size = UDim2.new(0, 215, 0, 17)
 			TextContainer.BackgroundTransparency = 1
 
 			TextComponent.VerticalAlignment = "Center"
@@ -288,7 +288,7 @@ function FluxLib:NewGui(GuiProperties)
 			local listening = true
 			local keybind
 			
-			ItemButton.Size = UDim2.new(0, 225, 0, 40)
+			ItemButton.Size = UDim2.new(0, 215, 0, 40)
 			ItemButton.Font = Poppins_SemiBold
 			ItemButton.BorderSizePixel = 0
 			ItemButton.BackgroundColor3 = Color3.fromHex("#12121e")
