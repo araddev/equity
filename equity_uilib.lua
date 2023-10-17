@@ -302,7 +302,9 @@ function FluxLib:NewGui(GuiProperties)
 			KeyBindButton.TextSize = 18.5
 			KeyBindButton.PaddingTop = 1
 			KeyBindButton.BorderSizePixel = 0
-			KeyBindButton.BackgroundColor3 = Color3.fromHex("#2a2a48")
+			KeyBindButton.BackgroundColor3 = Color3.fromHex("#12121e")
+            KeyBindButton.BorderSizePixel = 1
+            KeyBindButton.BorderColor3 = Color3.fromHex("#2a2a48")
 			KeyBindButton.MouseButton1Click:Connect(function()
 			listening = true
 			KeyBindButton.Text = "..."
