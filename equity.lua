@@ -16,7 +16,7 @@ local Gui = FluxLib:NewGui({
 
 local Tab1 = Gui:NewTab({
 	TabName = "Ghost", -- Defaults to "Tab <Tab Order>"
-	TabItemImage = "https://cdn.discordapp.com/attachments/1027869083162640384/1090713154146816210/icons8-sad-ghost-48.png"
+	TabItemImage = "https://cdn.discordapp.com/attachments/695925843834306592/1163790155077914644/image.png?ex=6540db0b&is=652e660b&hm=74c628f34a1e0ed9e101ebe6f40b8b225df5d08cadcff147c8ada9459a0cdb21&"
 })
 
 local Tab2 = Gui:NewTab({
@@ -67,14 +67,6 @@ Tab2:NewToggle({
 })
 
 Tab1:NewToggle({
-	Text = "Eagle",
-	ItemDescription = "Auto place or god bridge basically",
-	CallbackFunction = function(Callback)
-		Eagle = not Eagle
-	end
-})
-
-Tab1:NewToggle({
 	Text = "NoClickDelay",
 	ItemDescription = "Removes click delay",
 	CallbackFunction = function(Callback)
@@ -108,6 +100,18 @@ Tab1:NewToggle({
 	end
 })
 
+Tab1:NewText({
+	Text = "Player"
+})
+
+Tab1:NewToggle({
+	Text = "Eagle",
+	ItemDescription = "Auto place or god bridge basically",
+	CallbackFunction = function(Callback)
+		Eagle = not Eagle
+	end
+})
+
 Tab1:NewToggle({
 	Text = "Reach",
 	ItemDescription = "Extends reach",
@@ -117,22 +121,18 @@ Tab1:NewToggle({
 })
 
 Tab1:NewToggle({
-	Text = "Velocity",
-	ItemDescription = "Low knockback",
-	CallbackFunction = function(Callback)
-		VelocityToggle = not VelocityToggle
-	end
-})
-
-Tab1:NewText({
-	Text = "Player"
-})
-
-Tab1:NewToggle({
 	Text = "AimAssist",
 	ItemDescription = "Assists you in aiming",
 	CallbackFunction = function(Callback)
 		print("hello")
+	end
+})
+
+Tab1:NewToggle({
+	Text = "Velocity",
+	ItemDescription = "Low knockback",
+	CallbackFunction = function(Callback)
+		VelocityToggle = not VelocityToggle
 	end
 })
 

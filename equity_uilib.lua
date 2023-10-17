@@ -5,7 +5,11 @@ function FluxLib:NewGui(GuiProperties)
 	local GothamSSm = "https://cdn.discordapp.com/attachments/695925843834306592/1071401151913803786/1746-font.otf"
 	local GothamSSm_Medium = "https://img.guildedcdn.com/ContentMediaGenericFiles/f2afb4c395f1bf4f604d816bc719664f-Full.otf?w=1&h=1"
 	local Poppins_SemiBold = "https://cdn.discordapp.com/attachments/1123581682784677940/1123593374776172544/Poppins-SemiBold.ttf"
-	local Outfit_Regular = "https://img.guildedcdn.com/ContentMediaGenericFiles/55c9ece0a0c8820c818f4664c8ce72ae-Full.ttf?w=1&h=1"
+	local Outfit_Bold = "https://cdn.discordapp.com/attachments/1158428101030723585/1163786638657343518/Outfit-Bold.ttf?ex=6540d7c4&is=652e62c4&hm=6f4326b7101b6b8909c2cab5d2481e19d0902e930e15264df5cd26a24d0fb7df&"
+	local Outfit_SemiBold = "https://cdn.discordapp.com/attachments/1158428101030723585/1163786322566197299/Outfit-SemiBold.ttf?ex=6540d779&is=652e6279&hm=39373ebc24519d7616dedf946b161914635b1f34e24cad626d2239358fde5477&"
+	local Outfit_Black = "https://cdn.discordapp.com/attachments/1158428101030723585/1163785998321328159/Outfit-Black.ttf?ex=6540d72c&is=652e622c&hm=b6608c8fb05517db6e34af4e7dc3a829e7a5238cb69e3e659e6b0ee4893e6f7b&"
+	local Outfit_Medium = "https://cdn.discordapp.com/attachments/695925843834306592/1163787504214868038/Outfit-Medium.ttf?ex=6540d893&is=652e6393&hm=441b6263ae3028ccae775963382b69933c11b748dfb6b1db38a4d47a7d93990e&"
+	local Outfit = "https://cdn.discordapp.com/attachments/695925843834306592/1163787193463091241/Outfit-Regular.ttf?ex=6540d849&is=652e6349&hm=44130e0271a2057935976e941cd2842466eef598d74bb40cea1318c0a3002887&"
 
 	local Gui = {}
 	local GuiTabs = {}
@@ -64,13 +68,13 @@ function FluxLib:NewGui(GuiProperties)
     ItemItemContainer.HorizontalAlignment = "Right"
 
 	Title.Text = TitleText
-	Title.Font = GothamSSm
-	Title.Position = UDim2.new(0, 12, 0, 16)
+	Title.Font = Outfit_Bold
+	Title.Position = UDim2.new(0, 12, 0, 14)
 	
 	Desc.Text = DescText
-	Desc.Font = GothamSSm_Medium -- cant fucking use discord cdn because its blocked in iran
+	Desc.Font = Outfit_Medium -- cant fucking use discord cdn because its blocked in iran
 	Desc.Position = UDim2.new(0, 12, 0, 33)
-	Desc.TextSize = 14	
+	Desc.TextSize = 15	
 	Desc.TextColor3 = Color3.fromRGB(225,225,225);
 	
 	ServerLocation.TextSize = 15
@@ -144,7 +148,7 @@ function FluxLib:NewGui(GuiProperties)
 		
 		TabItemTitle.Text = TabName
 		TabItemTitle.TextSize = 16
-		TabItemTitle.Font = "SourceSansPro-SemiBold"
+		TabItemTitle.Font = Outfit_SemiBold
 		TabItemTitle.VerticalAlignment = "Center"
 		TabItemTitle.Position = UDim2.new(0, 25, 0, 1)
 		
@@ -264,7 +268,7 @@ function FluxLib:NewGui(GuiProperties)
 			TextComponent.TextSize = 14
 			TextComponent.HorizontalAlignment = "Left"
 			TextComponent.Text = Text
-			TextComponent.Font = GothamSSm_Medium
+			TextComponent.Font = Outfit_Medium
 
 			TextComponent.Parent = TextContainer
 			TextContainer.Parent = ItemContainer
@@ -289,7 +293,7 @@ function FluxLib:NewGui(GuiProperties)
 			local keybind
 			
 			ItemButton.Size = UDim2.new(0, 215, 0, 40)
-			ItemButton.Font = Poppins_SemiBold
+			ItemButton.Font = Outfit_SemiBold
 			ItemButton.BorderSizePixel = 0
 			ItemButton.BackgroundColor3 = Color3.fromHex("#12121e")
 			ItemButton.CornerRadius = CornerRadius.new(6, 6, 6, 6)
@@ -298,12 +302,12 @@ function FluxLib:NewGui(GuiProperties)
 			KeyBindButton.Position = UDim2.new(0, -35, 0, 0)
 			KeyBindButton.HorizontalAlignment = "Right"
 			KeyBindButton.VerticalAlignment = "Center"
-			KeyBindButton.Radius = 10
+			KeyBindButton.Radius = 7
 			KeyBindButton.TextSize = 18.5
 			KeyBindButton.PaddingTop = 1
 			KeyBindButton.BorderSizePixel = 0
 			KeyBindButton.BackgroundColor3 = Color3.fromHex("#12121e")
-            KeyBindButton.BorderSizePixel = 1
+            KeyBindButton.BorderSizePixel = 0.7
             KeyBindButton.BorderColor3 = Color3.fromHex("#2a2a48")
 			KeyBindButton.MouseButton1Click:Connect(function()
 			listening = true
@@ -338,20 +342,23 @@ function FluxLib:NewGui(GuiProperties)
 
 			Description.Parent = ItemButton
 			Description.Text = ItemDescription
-			Description.TextSize = 14
-			Description.TextColor3 = Color3.fromHex("#83868b")
+			Description.Font = Outfit
+			Description.TextSize = 16
+			Description.TextColor3 = Color3.fromHex("#282844")
 			Description.Position = UDim2.new(0, 9, 0, 24)
 			
 			Circle.Size = UDim2.new(0, 7, 0, 7)
 			Circle.Position = UDim2.new(0, 9, 0, -5)
 			Circle.CornerRadius = CornerRadius.new(6, 6, 6, 6)
-			Circle.BackgroundColor3 = Color3.fromHex("#d3d3d3")
+			Circle.BackgroundColor3 = Color3.fromHex("#ddddf0")
 			Circle.BorderSizePixel = 0
 			Circle.VerticalAlignment = "Center"
 			
 			ItemButtonTitle.VerticalAlignment = "Center"
 			ItemButtonTitle.Position = UDim2.new(0, 22, 0, -4)
 			ItemButtonTitle.Text = Text
+			ItemButtonTitle.TextColor3 = Color3.fromHex("#ddddf0")
+			ItemButtonTitle.Font = Outfit_Medium
 			ItemButtonTitle.TextSize = 16
 			
 			OuterCircle.Size = UDim2.new(0, 16, 0, 7)
@@ -408,7 +415,7 @@ function FluxLib:NewGui(GuiProperties)
 			local TextBox = Instance.new("TextBox")
 			
 			ItemButton.Size = UDim2.new(0, 225, 0, 40)
-			ItemButton.Font = Poppins_SemiBold
+			ItemButton.Font = Outfit_SemiBold
 			ItemButton.BorderSizePixel = 0
 			ItemButton.BackgroundColor3 = Color3.fromHex("#12121e")
 			ItemButton.CornerRadius = CornerRadius.new(6, 6, 6, 6)
