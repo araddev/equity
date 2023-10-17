@@ -342,7 +342,7 @@ function FluxLib:NewGui(GuiProperties)
 			Description.Text = ItemDescription
 			Description.Font = Outfit
 			Description.TextSize = 16
-			Description.TextColor3 = Color3.fromHex("#282844")
+			Description.TextColor3 = Color3.fromHex("#27273b")
 			Description.Position = UDim2.new(0, 9, 0, 24)
 			
 			Circle.Size = UDim2.new(0, 7, 0, 7)
