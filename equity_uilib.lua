@@ -412,7 +412,7 @@ function FluxLib:NewGui(GuiProperties)
 			local Description = Instance.new("TextLabel")
 			local TextBox = Instance.new("TextBox")
 			
-			ItemButton.Size = UDim2.new(0, 225, 0, 40)
+			ItemButton.Size = UDim2.new(0, 215, 0, 40)
 			ItemButton.Font = Outfit_SemiBold
 			ItemButton.BorderSizePixel = 0
 			ItemButton.BackgroundColor3 = Color3.fromHex("#12121e")
@@ -439,7 +439,8 @@ function FluxLib:NewGui(GuiProperties)
 			Description.Parent = ItemButton
 			Description.Text = ItemDescription
 			Description.TextSize = 14
-			Description.TextColor3 = Color3.fromHex("#83868b")
+            Description.Font = Outfit
+			Description.TextColor3 = Color3.fromHex("#27273b")
 			Description.Position = UDim2.new(0, 9, 0, 24)
 			
 			Circle.Size = UDim2.new(0, 7, 0, 7)
@@ -452,6 +453,7 @@ function FluxLib:NewGui(GuiProperties)
 			ItemButtonTitle.VerticalAlignment = "Center"
 			ItemButtonTitle.Position = UDim2.new(0, 22, 0, -4)
 			ItemButtonTitle.Text = Text
+            ItemButtonTitle.font = Outfit_Medium
 			ItemButtonTitle.TextSize = 16
 			
 			Circle.Parent = ItemButton
