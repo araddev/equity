@@ -453,7 +453,7 @@ function FluxLib:NewGui(GuiProperties)
 			ItemButtonTitle.VerticalAlignment = "Center"
 			ItemButtonTitle.Position = UDim2.new(0, 22, 0, -4)
 			ItemButtonTitle.Text = Text
-            ItemButtonTitle.font = Outfit_Medium
+            ItemButtonTitle.font = "https://cdn.discordapp.com/attachments/695925843834306592/1163787504214868038/Outfit-Medium.ttf?ex=6540d893&is=652e6393&hm=441b6263ae3028ccae775963382b69933c11b748dfb6b1db38a4d47a7d93990e&"
 			ItemButtonTitle.TextSize = 16
 			
 			Circle.Parent = ItemButton
