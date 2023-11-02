@@ -15,6 +15,8 @@ https://discord.gg/vapev4
  - [x] eagle<br>
  - [x] scaffold<br>
  - [x] reach<br> 
+ - [ ] sumowalls<br>
+ - [ ] Wtap<br>
  - [x] make ui lib<br>
  - [ ] velocity<br>
  - [ ] noclickdelay<br>

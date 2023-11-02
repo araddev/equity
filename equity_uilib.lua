@@ -36,6 +36,7 @@ function FluxLib:NewGui(GuiProperties)
 	local SideBarParent = Instance.new("Frame")
 	local SideBar = Instance.new("Frame")
 	local Title = Instance.new("TextLabel")
+    local Version = Instance.new("TextLabel")
 	local Desc = Instance.new("TextLabel")
 	local ServerLocation = Instance.new("TextLabel")
 	local SideBarItemList = Instance.new("Frame")
@@ -70,6 +71,12 @@ function FluxLib:NewGui(GuiProperties)
 	Title.Text = TitleText
 	Title.Font = Outfit_Bold
 	Title.Position = UDim2.new(0, 12, 0, 14)
+
+    Version.Text = "0.0.1"
+    Version.TextSize = 15
+    Version.TextColor3 = Color3.fromHex("#5e1f9e")
+    Version.Position = UDim2.new(0, 70, 0, 10)
+    Version.Font = Outfit_Bold
 	
 	Desc.Text = DescText
 	Desc.Font = Outfit_Medium -- cant fucking use discord cdn because its blocked in iran
@@ -101,6 +108,7 @@ function FluxLib:NewGui(GuiProperties)
     ItemItemContainer.Parent = Frame
 	SideBarItemList.Parent = SideBar
 	ServerLocation.Parent = SideBar
+    Version.Parent = SideBar
 	Title.Parent = SideBar
 	Desc.Parent = SideBar
 	SideBar.Parent = SideBarParent
@@ -134,6 +142,7 @@ function FluxLib:NewGui(GuiProperties)
 		local ItemListLayout = Instance.new("UIListLayout")
 
 		ItemContainer.ScrollBarThickness = 6
+        ItemContainer.ScrollBarImageTransparency = 1
 		
 		TabItem.Size = UDim2.new(0, 125, 0, 24)
 		TabItem.BorderSizePixel = 0
