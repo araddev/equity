@@ -178,7 +178,7 @@ function FluxLib:NewGui(GuiProperties)
 		ItemContainer.Parent = ItemItemContainer
 		ItemListLayout.Parent = ItemContainer
 		
-		TabItem.MouseButton1Click:Connect(function()
+		TabItem.MouseButton1Down:Connect(function()
 			local Self_GuiTab = GuiTabs_GetTableIndex(ItemContainer)
 			if not Self_GuiTab.Active then
 				Self_GuiTab.Active = true
@@ -241,7 +241,7 @@ function FluxLib:NewGui(GuiProperties)
 			InnerCircle.BorderSizePixel = 0
 			InnerCircle.VerticalAlignment = "Center"
 			
-			ItemButton.MouseButton1Click:Connect(function()
+			ItemButton.MouseButton1Down:Connect(function()
 				Toggled = not Toggled
 				if Toggled then
 					local UnToggleTween = TweenService:Create(InnerCircle, TweenInfo.new(0.01), {Position = UDim2.new(0, 0, 0, 0)})
@@ -316,7 +316,7 @@ function FluxLib:NewGui(GuiProperties)
 			KeyBindButton.PaddingTop = 1
 			KeyBindButton.BorderSizePixel = 0
 			KeyBindButton.BackgroundColor3 = Color3.fromHex("#2a2a48")
-			KeyBindButton.MouseButton1Click:Connect(function()
+			KeyBindButton.MouseButton1Down:Connect(function()
 			listening = true
 			KeyBindButton.Text = "..."
 			  local function onInputBegan(input, _gameProcessed)
@@ -383,7 +383,7 @@ function FluxLib:NewGui(GuiProperties)
 			InnerCircle.BorderSizePixel = 0
 			InnerCircle.VerticalAlignment = "Center"
 			
-			OuterCircle.MouseButton1Click:Connect(function()
+			OuterCircle.MouseButton1Down:Connect(function()
 				if Toggled then
 					local UnToggleTween = TweenService:Create(InnerCircle, TweenInfo.new(0.01), {Position = UDim2.new(0, 0, 0, 0)})
 					local UnToggleTweenColor = TweenService:Create(InnerCircle, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromHex("#fefefe")})
