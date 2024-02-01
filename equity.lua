@@ -16,7 +16,7 @@ local Gui = FluxLib:NewGui({
 
 local Tab1 = Gui:NewTab({
 	TabName = "Ghost", -- Defaults to "Tab <Tab Order>"
-	TabItemImage = "https://cdn.discordapp.com/attachments/695925843834306592/1163790155077914644/image.png?ex=6540db0b&is=652e660b&hm=74c628f34a1e0ed9e101ebe6f40b8b225df5d08cadcff147c8ada9459a0cdb21&"
+	TabItemImage = "https://cdn.discordapp.com/attachments/695925843834306592/1163821286888321145/image.png?ex=6540f809&is=652e8309&hm=e3882b71c28e5e9739ba71bfe729928ed3953ecf134037f140844f5571dfe0dd&"
 })
 
 local Tab2 = Gui:NewTab({
@@ -341,25 +341,17 @@ function DoEagle()
 	end
 end
 
+local counter = 0
+
 function DoVelocity()
-	if counter < 5000 then
-        --print("Packet: " .. tostring(e.packet))
-        local WrappedPacket = packetservice:GetPacket(e.packet)
-        
-        if WrappedPacket.identifier == "S12" then
-            --print("Packet: " .. WrappedPacket.identifier)
-            e:setCanceled(true)
-        end
-        
-        counter = counter + 1
+    -- code is temporary, the method of which velocity is done will be changed
+    print("HurtTime: " .. LocalPlayer.Character:GetHurtTime())
+    if LocalPlayer.Character:GetHurtTime() == 9 then
+        LocalPlayer.Character:SetMotionZ(0)
+        LocalPlayer.Character:SetMotionY(0)
+        LocalPlayer.Character:SetMotionX(0)
     end
 end
-
-Script.ReceivePacket:Connect(function(e)
-	if VelocityToggle then
-		DoVelocity()
-    end
-end)
 
 function DoReach()
 	LocalPlayer:Reach(6)
@@ -372,6 +364,10 @@ Script.MouseClick1:Connect(function(e)
 end)
 
 Script.Update:Connect(function()
+
+    if VelocityToggle then
+		DoVelocity()
+    end
     --killaura handler
 	if Killaura then
 		AttackClosest()

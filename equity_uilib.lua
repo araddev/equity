@@ -114,7 +114,7 @@ function FluxLib:NewGui(GuiProperties)
 	SideBar.Parent = SideBarParent
 	SideBarParent.Parent = Frame
 	Frame.Parent = ScreenGui
-	ScreenGui.IsEnabled = true
+	ScreenGui.Enabled = true
 	
 	function Gui:NewTab(TabProperties)
 		local Tab = {}
