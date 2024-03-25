@@ -1,4 +1,4 @@
-local FluxLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/araddev/equity/main/equity_uilib.lua"))()
+
 
 local Workspace = game:GetService("Workspace")
 local EntityService = game:GetService("EntityService")
@@ -16,17 +16,17 @@ local Gui = FluxLib:NewGui({
 
 local Tab1 = Gui:NewTab({
 	TabName = "Ghost", -- Defaults to "Tab <Tab Order>"
-	TabItemImage = "https://cdn.discordapp.com/attachments/695925843834306592/1163821286888321145/image.png?ex=6540f809&is=652e8309&hm=e3882b71c28e5e9739ba71bfe729928ed3953ecf134037f140844f5571dfe0dd&"
+	TabItemImage = "https://forum.elysium.wtf/uploads/default/original/2X/f/f99966043a3b047ea93ab7f43ded1462ef1805c9.png"
 })
 
 local Tab2 = Gui:NewTab({
 	TabName = "Blatant", -- Defaults to "Tab <Tab Order>"
-	TabItemImage = "https://cdn.discordapp.com/attachments/1041371360003379271/1068622339891286088/account_box_FILL1_wght400_GRAD0_opsz48_1.png"
+	TabItemImage = "https://forum.elysium.wtf/uploads/default/original/2X/8/8930f31c3dd457a3ee48adbb1ae8676074799695.png"
 })
 
 local UI = Gui:NewTab({
 	TabName = "Customization", -- Defaults to "Tab <Tab Order>"
-	TabItemImage = "https://cdn.discordapp.com/attachments/1027869083162640384/1090712902647939283/icons8-change-theme-48.png"
+	TabItemImage = "https://forum.elysium.wtf/uploads/default/original/2X/7/7e9bbd1b8bbb855eeb320d77314c62cdddc2e9b4.png"
 })
 
 time = os.time()
@@ -35,8 +35,10 @@ time = os.time()
 local Eagle = false
 local Killaura = false
 local ReachToggle = false
+local ReachRange = 4
 local VelocityToggle = false
 local Scaffold = false
+local SumoWalls = false
 local counter = 0
 
 
@@ -46,7 +48,7 @@ UI:NewToggle({
 	ItemDescription = "This thing is so cool",
 	CallbackFunction = function(Callback)
 		
-	end
+	end,
 })
 
 UI:NewTextBox({
@@ -72,14 +74,14 @@ Tab1:NewToggle({
 	CallbackFunction = function(Callback)
 		
 	end
-})
-
-Tab2:NewToggle({
-	Text = "SumoWalls",
-	ItemDescription = "Walls around falls",
-	CallbackFunction = function(Callback)
-		
-	end
+}):Slider({
+	Name = "test",
+	Min = 0,
+	Max = 10,
+	Default = 5,
+    Callback = function(val)
+        
+    end
 })
 
 
@@ -117,7 +119,16 @@ Tab1:NewToggle({
 	ItemDescription = "Extends reach",
 	CallbackFunction = function(Callback)
 		ReachToggle = not ReachToggle
-	end
+	end,
+	OptionsMenu = true
+}):Slider({
+	Name = "Range",
+	Min = 1,
+	Max = 6,
+	Default = 4,
+    Callback = function(val)
+        ReachRange = val
+    end
 })
 
 Tab1:NewToggle({
@@ -125,7 +136,8 @@ Tab1:NewToggle({
 	ItemDescription = "Assists you in aiming",
 	CallbackFunction = function(Callback)
 		print("hello")
-	end
+	end,
+	OptionsMenu = true
 })
 
 Tab1:NewToggle({
@@ -133,7 +145,8 @@ Tab1:NewToggle({
 	ItemDescription = "Low knockback",
 	CallbackFunction = function(Callback)
 		VelocityToggle = not VelocityToggle
-	end
+	end,
+	OptionsMenu = true
 })
 
 Tab2:NewToggle({
@@ -141,7 +154,8 @@ Tab2:NewToggle({
 	ItemDescription = "Automatically kills people and shit",
 	CallbackFunction = function(Callback)
 		Killaura = not Killaura
-	end
+	end,
+	OptionsMenu = true
 })
 
 Tab2:NewToggle({
@@ -149,7 +163,45 @@ Tab2:NewToggle({
 	ItemDescription = "Automatically places blocks !",
 	CallbackFunction = function(Callback)
 		Scaffold = not Scaffold
-	end
+	end,
+	OptionsMenu = true
+})
+
+local DEFAULT_TYPE = "iron_ore"
+local WALL_HEIGHT = 3
+local MIN_GAP_HEIGHT = 3
+
+Tab2:NewToggle({
+	Text = "SumoWalls",
+	ItemDescription = "Anti fall !!",
+	CallbackFunction = function(Callback)
+		SumoWalls = not SumoWalls
+	end,
+	OptionsMenu = true
+}):Slider({
+	Name = "Min Gap Height",
+	Min = 2,
+	Max = 10,
+	Default = MIN_GAP_HEIGHT,
+    Callback = function(val)
+        MIN_GAP_HEIGHT = val
+    end
+}):Slider({
+	Name = "Wall Height",
+	Min = 1,
+	Max = 10,
+	Default = WALL_HEIGHT,
+    Callback = function(val)
+        WALL_HEIGHT = val
+    end
+}):TextBox({
+    Name = "Block Type",
+	Placeholder = "Block Type",
+	Editable = true,
+    Text = DEFAULT_TYPE,
+    Callback = function(text)
+        DEFAULT_TYPE = text
+    end
 })
 
 local function WrapAngleTo180(angle)
@@ -181,7 +233,6 @@ function GetPitchChange(pitch, posX, posY, posZ)
 end
 
 function GetOffsets(face, bx, by, bz)
-    print(by)
     local offsets = {
     [LocalPlayer.East] = {x = bx + 1, y = by + 1, z = bz + 0.5},
     [LocalPlayer.West] = {x = bx, y = by + 1, z = bz + 0.5},
@@ -195,7 +246,7 @@ end
 
 function DoScaffold()
 	Character = LocalPlayer.Character
-    local blockposUnder = Workspace:GetBlockPos(Character:GetPosX(), Character:GetPosY() - 1, Character:GetPosZ())  
+    local blockposUnder = Vector3.new(Character:GetPosX(), Character:GetPosY() - 1, Character:GetPosZ())  
     local blockUnder = Workspace:GetBlock(blockposUnder)
     local nameUnder = Workspace:GetBlockName(blockUnder)
     
@@ -217,7 +268,7 @@ function DoScaffold()
     for x = -3, 3 do
         for y = -3, 3 do
             for z = -3, 3 do
-                local blockpos = Workspace:GetBlockPos(Character:GetPosX() + x, Character:GetPosY() + y, Character:GetPosZ() + z)  
+                local blockpos = Vector3.new(Character:GetPosX() + x, Character:GetPosY() + y, Character:GetPosZ() + z)  
                 local block = Workspace:GetBlock(blockpos)
                 local name = Workspace:GetBlockName(block)
                 
@@ -271,7 +322,7 @@ function DoScaffold()
     --end
 
     local offsets = GetOffsets(Face, math.floor(posX), math.floor(posY), math.floor(posZ))
-    local position = Workspace:GetVec3(offsets.x, offsets.y, offsets.z)
+    local position = Vector3.new(offsets.x, offsets.y, offsets.z)
 
     print("position: ", position)
     print("ceilposy: ", math.ceil(posY))
@@ -279,7 +330,7 @@ function DoScaffold()
 
     Character:Swing()
 
-    Character:PlaceBlock(Character:GetStackHeld(), BlockposTarget, Face, position)
+    Character:PlaceBlock(Character:GetStackHeld(), BlockposTarget:ToBlockPos(), Face, position)
 end
 
 function AttackClosest()
@@ -305,13 +356,7 @@ function AttackClosest()
         return
     end
 
-    if (Time < os.time()) then
-        localPlayer:Swing()
-        math.randomseed(os.time())
-        Time = os.time() + 100 + math.random(0, 100)
-        PacketService:SendPacket("C02", { closestEntity.entityObject, localPlayer.Attack })
-    end
-
+	Attack(closestEntity)
     local yaw = localPlayer:GetYaw()
     local pitch = localPlayer:GetPitch()
 
@@ -341,10 +386,70 @@ function DoEagle()
 	end
 end
 
+local workspace = Workspace
+
+for i,v in pairs(workspace:GetClientBlocks()) do
+    v:Remove()
+end
+local clientBlocks = {}
+function getBlock(position)
+    return workspace:GetBlock(position);
+end
+function place(x,y,z)
+    local block = Instance.new("Block")
+    block.Position = Vector3.new(x,y,z)
+    block.Type = DEFAULT_TYPE
+    block:Update()
+    table.insert(clientBlocks, block)
+end
+function getHeightUntilGround(x,y,z)
+    local height = 0
+    while workspace:GetBlockName(x,y - height,z) == "air" and height < 100 do
+        height = height + 1
+    end
+    return height
+end
+function clearGhostBlocks()
+    for i,v in pairs(clientBlocks) do
+        v:Remove()
+        clientBlocks[i] = nil
+    end
+end
+function doSumoWalls()
+    local Character = LocalPlayer.Character
+    if not Character then return end
+    clearGhostBlocks()
+    local x,y,z = Character:GetPosX(), Character:GetPosY(), Character:GetPosZ()
+    local height = getHeightUntilGround(x,y,z)
+    for xOffset = -2, 2 do
+        for zOffset = -2, 2 do
+            if(xOffset == 0 and zOffset == 0)then goto continue end
+            local x,y,z = x + xOffset, y, z + zOffset
+
+            local isGap = true
+            for yOffset = 0, MIN_GAP_HEIGHT do
+                if workspace:GetBlockName(x,y - yOffset,z) ~= "air" then 
+                    isGap = false 
+                    break 
+                end
+            end
+
+            if isGap then
+                local newHeight = getHeightUntilGround(x, y, z)
+                if height < newHeight or Character:IsOnGround() then
+                    for offset = 0, WALL_HEIGHT-1 do
+                        place(x,y + 1 - offset,z)
+                    end
+                end
+            end
+            ::continue::
+        end
+    end
+end
+
 local counter = 0
 
 function DoVelocity()
-    -- code is temporary, the method of which velocity is done will be changed
     print("HurtTime: " .. LocalPlayer.Character:GetHurtTime())
     if LocalPlayer.Character:GetHurtTime() == 9 then
         LocalPlayer.Character:SetMotionZ(0)
@@ -352,12 +457,49 @@ function DoVelocity()
         LocalPlayer.Character:SetMotionX(0)
     end
 end
-
-function DoReach()
-	LocalPlayer:Reach(6)
+function Attack(entity, shouldTeleport)
+	if (Time < os.time()) then
+		local Character = LocalPlayer.Character
+		local x,y,z
+		if shouldTeleport then
+			x = Character:GetPosX()
+			y = Character:GetPosY()
+			z = Character:GetPosZ()
+			PacketService:SendPacket("C04", { entity:GetPosX(), entity:GetPosY(), entity:GetPosZ(), true })
+			wait(1/15)
+			return
+		end
+		
+        --localPlayer:Swing()
+        math.randomseed(os.time())
+        Time = os.time() + 100 + math.random(0, 100)
+        PacketService:SendPacket("C02", { entity.entityObject, localPlayer.Attack })
+		
+		--[[if shouldTeleport then
+			wait(1/15)
+			PacketService:SendPacket("C04", { x,y,z, true })
+		end--]]
+    end
 end
-
+function DoReach()
+	local entity = LocalPlayer:Reach(ReachRange)
+	print(entity, ReachRange)
+	if(entity) then
+		local distance = entity.getDistanceToEntity(LocalPlayer.Character.entityObject) + 0.3
+		print(entity, ReachRange, distance)
+		if(distance > 3 and distance <= ReachRange) then
+			PacketService:SendPacket("C02", { entity.entityObject, localPlayer.Attack })
+		end
+	end--]]
+end
+function DoCrit()
+	local x,y,z = LocalPlayer.Character:GetPosX(), LocalPlayer.Character:GetPosY(), LocalPlayer.Character:GetPosZ()
+	PacketService:SendPacket("C04", {x, y + 0.0625,z, true})
+	PacketService:SendPacket("C04", {x, y, z, false})
+	PacketService:SendPacket("C04", {x, y + 1.1E-5D,z, false})
+end
 Script.MouseClick1:Connect(function(e)
+	--DoCrit()
 	if ReachToggle then
 		DoReach()
 	end
@@ -381,4 +523,8 @@ Script.Update:Connect(function()
 	if Eagle then
 		DoEagle()
     end
+
+    if SumoWalls then
+        doSumoWalls()
+    else clearGhostBlocks() end
 end)

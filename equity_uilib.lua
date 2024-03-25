@@ -1,20 +1,91 @@
 local FluxLib = {}
+local ts = game:GetService("TweenService")
+local animation = Instance.new("BindableEvent")
+local create = function(a, b)
+    local b = b or {}
+    local c = Instance.new(a)
+    for i, v in pairs(b) do
+        c[i] = v
+    end
+    return c
+end
+
 
 function FluxLib:NewGui(GuiProperties)
 	-- Fonts (loading them from discord and guilded cdn because im 2 lazy)
-	local GothamSSm = "https://cdn.discordapp.com/attachments/695925843834306592/1071401151913803786/1746-font.otf"
-	local GothamSSm_Medium = "https://img.guildedcdn.com/ContentMediaGenericFiles/f2afb4c395f1bf4f604d816bc719664f-Full.otf?w=1&h=1"
-	local Poppins_SemiBold = "https://cdn.discordapp.com/attachments/1123581682784677940/1123593374776172544/Poppins-SemiBold.ttf"
-	local Outfit_Bold = "https://cdn.discordapp.com/attachments/1158428101030723585/1163786638657343518/Outfit-Bold.ttf?ex=6540d7c4&is=652e62c4&hm=6f4326b7101b6b8909c2cab5d2481e19d0902e930e15264df5cd26a24d0fb7df&"
-	local Outfit_SemiBold = "https://cdn.discordapp.com/attachments/1158428101030723585/1163786322566197299/Outfit-SemiBold.ttf?ex=6540d779&is=652e6279&hm=39373ebc24519d7616dedf946b161914635b1f34e24cad626d2239358fde5477&"
-	local Outfit_Black = "https://cdn.discordapp.com/attachments/1158428101030723585/1163785998321328159/Outfit-Black.ttf?ex=6540d72c&is=652e622c&hm=b6608c8fb05517db6e34af4e7dc3a829e7a5238cb69e3e659e6b0ee4893e6f7b&"
-	local Outfit_Medium = "https://cdn.discordapp.com/attachments/695925843834306592/1163787504214868038/Outfit-Medium.ttf?ex=6540d893&is=652e6393&hm=441b6263ae3028ccae775963382b69933c11b748dfb6b1db38a4d47a7d93990e&"
-	local Outfit = "https://cdn.discordapp.com/attachments/695925843834306592/1163787193463091241/Outfit-Regular.ttf?ex=6540d849&is=652e6349&hm=44130e0271a2057935976e941cd2842466eef598d74bb40cea1318c0a3002887&"
+	local GothamSSm = "https://forum.elysium.wtf/uploads/default/original/2X/b/b59cc03a78884ea608624fecbf919ed032c8fd3d.ttf"
+	local GothamSSm_Medium = "https://forum.elysium.wtf/uploads/default/original/2X/1/1112beb22b9344db1ff5f72791e6772e9f4b0b84.ttf"
+	local Poppins_SemiBold = "https://forum.elysium.wtf/uploads/default/original/2X/1/11cab7bae700c3ab30edf4ba5367d6dc808b1787.ttf"
+	local Outfit_Bold = "https://forum.elysium.wtf/uploads/default/original/2X/4/4d7991b68c5b84c852824697b6ced99c691a0c18.ttf"
+	local Outfit_SemiBold = "https://forum.elysium.wtf/uploads/default/original/2X/1/11cab7bae700c3ab30edf4ba5367d6dc808b1787.ttf"
+	local Outfit_Black = "https://forum.elysium.wtf/uploads/default/original/2X/d/db01f8b70a55a08418f146114a7a9f503a8608e4.ttf"
+	local Outfit_Medium = "https://forum.elysium.wtf/uploads/default/original/2X/1/1112beb22b9344db1ff5f72791e6772e9f4b0b84.ttf"
+	local Outfit = "https://forum.elysium.wtf/uploads/default/original/2X/b/b59cc03a78884ea608624fecbf919ed032c8fd3d.ttf"
 
 	local Gui = {}
 	local GuiTabs = {}
 
+	local function baseElement(ItemContainer, text, description)
+		local ItemHolder = create("Frame",{
+			Size = UDim2.new(0,215,0,41),
+			BackgroundTransparency = 1,
+			BorderSizePixel = 1,
+			ClipsDescendants = true
+		})
+		local ItemButton =
+			create(
+			"TextButton",
+			{
+				Parent = ItemHolder,
+				Size = UDim2.new(0, 215, 0, 40),
+				Font = Outfit_SemiBold,
+				BorderSizePixel = 0,
+				BackgroundColor3 = Color3.fromHex("#12121e"),
+				CornerRadius = CornerRadius.new(6, 6, 6, 6),
+			}
+		)
+		local Circle =
+			create(
+			"Frame",
+			{
+				Size = UDim2.new(0, 7, 0, 7),
+				Position = UDim2.new(0, 9, 0.5, -7),
+				CornerRadius = CornerRadius.new(6, 6, 6, 6),
+				BackgroundColor3 = Color3.fromHex("#ddddf0"),
+				BorderSizePixel = 0
+			}
+		)
 
+		local ItemButtonTitle =
+			create(
+			"TextLabel",
+			{
+				AnchorPoint = Vector2.new(0, 0.5),
+				Position = UDim2.new(0, 22, 0.5, -5),
+				Text = text,
+				TextColor3 = Color3.fromHex("#ddddf0"),
+				Font = Outfit_Medium,
+				TextSize = 16
+			}
+		)
+
+
+
+		local Description = create("TextLabel",{
+			Parent = ItemButton,
+			Text = description,
+			Font = Outfit,
+			TextSize = 16,
+			TextColor3 = Color3.fromHex("#27273b"),
+			Position = UDim2.new(0, 9, 0, 24),
+		})
+
+
+		Circle.Parent = ItemButton
+		ItemButtonTitle.Parent = ItemButton
+		ItemHolder.Parent = ItemContainer
+		return ItemButton, Circle, ItemButtonTitle,ItemHolder
+	end
 	local function GuiTabs_GetTableIndex(ItemContainer)
 		for i = 1, #GuiTabs do
 			local GuiTab = GuiTabs[i]
@@ -46,10 +117,16 @@ function FluxLib:NewGui(GuiProperties)
 
 
 
-	Script.KeyType:Connect(function(e)
-	if e.KeyCode == 54 then
-    ScreenGui:Open()
-	end
+	game:GetService("UserInputService").InputBegan:Connect(function(a,b)
+		if a.KeyCode == Enum.KeyCode.RightShift then
+			ScreenGui:Open()
+			for i,v in pairs(ScreenGui:GetDescendants()) do
+				if v.Transparency ~= nil then
+					v.Transparency = 1
+					ts:Create(v,TweenInfo.new(0.5),{Transparency = 0}):Play()
+				end
+			end
+		end
 	end)
 
 	Frame.Size = UDim2.new(0, SizeX, 0, SizeY)
@@ -57,16 +134,16 @@ function FluxLib:NewGui(GuiProperties)
 	Frame.BorderSizePixel = 0
 	Frame.BackgroundColor3 = Color3.fromHex("#0e0e1a")
 	Frame.Draggable = true
-	Frame.VerticalAlignment = "Center"
-	Frame.HorizontalAlignment = "Center"
+	Frame.AnchorPoint = Vector2.new(0.5,0.5)
+	Frame.Position = UDim2.new(0.5,0,0.5,0)
 	Frame.ClipsDescendants = true
 
+	ItemItemContainer.Position = UDim2.new(1,-125,0,15)
     ItemItemContainer.BackgroundColor3 = Color3.fromRGB(255, 255,255)
     ItemItemContainer.Size = UDim2.new(0, 250, 0, SizeY - 15)
-    ItemItemContainer.VerticalAlignment = "Bottom"
     ItemItemContainer.BorderSizePixel = 0
     ItemItemContainer.BackgroundTransparency = 1
-    ItemItemContainer.HorizontalAlignment = "Right"
+	ItemItemContainer.AnchorPoint = Vector2.new(0,0)
 
 	Title.Text = TitleText
 	Title.Font = Outfit_Bold
@@ -89,6 +166,7 @@ function FluxLib:NewGui(GuiProperties)
 	
 	SideBarParent.Size = UDim2.new(0, 120, 0, SizeY)
 	SideBarParent.BackgroundTransparency = 1
+	SideBarParent.BackgroundColor3 = Color3.fromRGB(0,0,0)
 	SideBarParent.ClipsDescendants = true
 	
 	SideBar.Size = UDim2.new(0, 125, 0, SizeY)
@@ -99,10 +177,11 @@ function FluxLib:NewGui(GuiProperties)
 	SideBarItemList.Size = UDim2.new(0, 125, 0, SizeY - 47)
 	SideBarItemList.BackgroundTransparency = 1
 	SideBarItemList.BorderSizePixel = 0
-	SideBarItemList.VerticalAlignment = "bottom"
-	
-	UIListLayout.Padding = UDim.new(3, 1)
-	UIListLayout.ChildrenHorizontalAlignment = "Center"
+	SideBarItemList.Position = UDim2.new(0,0,0,47)
+	--SideBarItemList.AnchorPoint = Vector2.new(0,1)
+
+	UIListLayout.Padding = UDim.new(0, 5)
+	UIListLayout.HorizontalAlignment = "Center"
 	
 	UIListLayout.Parent = SideBarItemList
     ItemItemContainer.Parent = Frame
@@ -141,6 +220,7 @@ function FluxLib:NewGui(GuiProperties)
 		local ItemContainer = Instance.new("ScrollingFrame")
 		local ItemListLayout = Instance.new("UIListLayout")
 
+		ItemContainer.AutomaticCanvasSize = "Y"
 		ItemContainer.ScrollBarThickness = 6
         ItemContainer.ScrollBarImageTransparency = 1
 		
@@ -150,36 +230,36 @@ function FluxLib:NewGui(GuiProperties)
 		TabItem.BackgroundTransparency = Active and 0 or 1
 		
 		TabItemIcon.Size = UDim2.new(0, 16, 0, 16)
-		TabItemIcon.VerticalAlignment = "Center"
+		--TabItemIcon.AnchorPoint = Vector2.new(0,0)
 		TabItemIcon.Image = TabItemImage
 		TabItemIcon.BackgroundTransparency = 1
-		TabItemIcon.Position = UDim2.new(0, 6, 0, 0)
+		TabItemIcon.Position = UDim2.new(0, 6, 0, 3)
 		
 		TabItemTitle.Text = TabName
 		TabItemTitle.TextSize = 16
 		TabItemTitle.Font = Outfit_SemiBold
-		TabItemTitle.VerticalAlignment = "Center"
-		TabItemTitle.Position = UDim2.new(0, 25, 0, 1)
+		--TabItemTitle.AnchorPoint = Vector2.new(0,0)
+		TabItemTitle.Position = UDim2.new(0, 25, 0.5, -2)
 		
-		ItemContainer.BackgroundColor3 = Color3.fromRGB(255, 255,255)
+		ItemContainer.BackgroundColor3 = Color3.fromRGB(255,255,255)
 		ItemContainer.Size = UDim2.new(0, 240, 0, SizeY - 15)
-		ItemContainer.VerticalAlignment = "Bottom"
 		ItemContainer.BorderSizePixel = 0
 		ItemContainer.BackgroundTransparency = 1
-		ItemContainer.HorizontalAlignment = "Center"
+		ItemContainer.Position = UDim2.new(1,-122.5,0,0)
 		ItemContainer.Visible = Active
+		ItemContainer.AutomaticCanvasSize = "Y"
 		
-		ItemListLayout.Padding = UDim.new(3, 1)
-		ItemListLayout.ChildrenHorizontalAlignment = "Center"
+		ItemListLayout.Padding = UDim.new(0, 5)
+		ItemListLayout.HorizontalAlignment = "Center"
 		
 		TabItem.Parent = SideBarItemList
 		TabItemIcon.Parent = TabItem
 		TabItemTitle.Parent = TabItem
 		ItemContainer.Parent = ItemItemContainer
 		ItemListLayout.Parent = ItemContainer
-		
+
 		TabItem.MouseButton1Click:Connect(function()
-			local Self_GuiTab = GuiTabs_GetTableIndex(ItemContainer)
+            local Self_GuiTab = GuiTabs_GetTableIndex(ItemContainer)
 			if not Self_GuiTab.Active then
 				Self_GuiTab.Active = true
 				ItemContainer.Visible = true
@@ -201,46 +281,29 @@ function FluxLib:NewGui(GuiProperties)
 			local Text = ButtonProperties.Text or "Text"
 			local CallbackFunction = ButtonProperties.CallbackFunction
 			
-			local ItemButton = Instance.new("TextButton")
-			local Circle = Instance.new("Frame")
-			local ItemButtonTitle = Instance.new("TextLabel")
+			local ItemButton, Circle, ItemButtonTitle = baseElement(ItemContainer, Text, ItemDescription)
+
 			local OuterCircle = Instance.new("TextButton")
 			local InnerCircle = Instance.new("Frame")
 			
 			local Toggled = false
 			
-			ItemButton.Size = UDim2.new(0, 225, 0, 24)
-			ItemButton.BorderSizePixel = 0
-			ItemButton.BackgroundColor3 = Color3.fromHex("#12121e")
-			ItemButton.CornerRadius = Radius
-			
-			Circle.Size = UDim2.new(0, 7, 0, 7)
-			Circle.Position = UDim2.new(0, 9, 0, 0)
-			Circle.CornerRadius = CornerRadius.new(6, 6, 6, 6)
-			Circle.BackgroundColor3 = Color3.fromHex("#d3d3d3")
-			Circle.BorderSizePixel = 0
-			Circle.VerticalAlignment = "Center"
-			
-			ItemButtonTitle.VerticalAlignment = "Center"
-			ItemButtonTitle.Position = UDim2.new(0, 22, 0, 1)
-			ItemButtonTitle.Text = Text
-			ItemButtonTitle.TextSize = 16
+
 			
 			OuterCircle.Size = UDim2.new(0, 16, 0, 7)
 			OuterCircle.Position = UDim2.new(0, -11, 0, 0)
 			OuterCircle.CornerRadius = CornerRadius.new(6, 6, 6, 6)
 			OuterCircle.BackgroundColor3 = Color3.fromHex("#e4e4e4")
 			OuterCircle.BorderSizePixel = 0
-			OuterCircle.VerticalAlignment = "Center"
-			OuterCircle.HorizontalAlignment = "Right"
-			
+
+			OuterCircle.AnchorPoint = Vector2.new(1,0.5)
+
 			InnerCircle.Size = UDim2.new(0, 10, 0, 10)
 			InnerCircle.Position = UDim2.new(0, 0, 0, 0)
 			InnerCircle.CornerRadius = CornerRadius.new(10, 10, 10, 10)
 			InnerCircle.BackgroundColor3 = Color3.fromHex("#fefefe")
 			InnerCircle.BorderSizePixel = 0
-			InnerCircle.VerticalAlignment = "Center"
-			
+			InnerCircle.AnchorPoint = Vector2.new(0,0.5)
 			ItemButton.MouseButton1Click:Connect(function()
 				Toggled = not Toggled
 				if Toggled then
@@ -258,10 +321,6 @@ function FluxLib:NewGui(GuiProperties)
 					CallbackFunction()
 				end
 			end)
-			
-			ItemButton.Parent = ItemContainer
-			Circle.Parent = ItemButton
-			ItemButtonTitle.Parent = ItemButton
 		end
 		
 		function Tab:NewText(TextProperties)
@@ -272,10 +331,10 @@ function FluxLib:NewGui(GuiProperties)
 			TextContainer.Size = UDim2.new(0, 215, 0, 17)
 			TextContainer.BackgroundTransparency = 1
 
-			TextComponent.VerticalAlignment = "Center"
+			--TextComponent.AnchorPoint = Vector2.new(0,0.5)
+			TextComponent.Position = UDim2.new(0,0,0.5,-3.5)
 			TextComponent.TextColor3 = Color3.fromRGB(190, 190, 190)
 			TextComponent.TextSize = 14
-			TextComponent.HorizontalAlignment = "Left"
 			TextComponent.Text = Text
 			TextComponent.Font = Outfit_Medium
 
@@ -287,126 +346,330 @@ function FluxLib:NewGui(GuiProperties)
 			local Text = ToggleProperties.Text or "Text"
 			local ItemDescription = ToggleProperties.ItemDescription or "Description"
 			local CallbackFunction = ToggleProperties.CallbackFunction
+			local OptionsMenu = ToggleProperties.OptionsMenu
+		
 			
-			local ItemButton = Instance.new("TextButton")
-			local Circle = Instance.new("Frame")
-			local ItemButtonTitle = Instance.new("TextLabel")
-			local OuterCircle = Instance.new("TextButton")
-			local InnerCircle = Instance.new("Frame")
-			local Description = Instance.new("TextLabel")
-			local TextButton = Instance.new("TextButton")
-			local KeyBindButton = Instance.new("TextButton")
+			
+			local ItemButton, Circle, ItemButtonTitle, ItemHolder = baseElement(ItemContainer, Text, ItemDescription)
+			local OuterCircle = create("TextButton",{
+				Size = UDim2.new(0, 16, 0, 7),
+				Position = UDim2.new(1, -15, 0.5, -3),
+				CornerRadius = CornerRadius.new(6, 6, 6, 6),
+				BackgroundColor3 = Color3.fromRGB(224, 224, 224),
+				BorderSizePixel = 0,
+			})
+
+			local InnerCircle = create("Frame",{
+				Size = UDim2.new(0, 10, 0, 10),
+				Position = UDim2.new(0, 0, 0, -2),
+				CornerRadius = CornerRadius.new(10, 10, 10, 10),
+				BackgroundColor3 = Color3.fromHex("#fefefe"),
+				BorderSizePixel = 0,
+			})
+			OuterCircle.Parent = ItemButton
+			InnerCircle.Parent = OuterCircle
+			
 			local UserInputService = game:GetService("UserInputService")
+			local TweenService = game:GetService"TweenService"
 			local Toggled = false
-			local listening = true
-			local keybind
-			
-			ItemButton.Size = UDim2.new(0, 215, 0, 40)
-			ItemButton.Font = Outfit_SemiBold
-			ItemButton.BorderSizePixel = 0
-			ItemButton.BackgroundColor3 = Color3.fromHex("#12121e")
-			ItemButton.CornerRadius = CornerRadius.new(6, 6, 6, 6)
-
-			KeyBindButton.Size = UDim2.new(0, 15, 0, 15)
-			KeyBindButton.Position = UDim2.new(0, -35, 0, 0)
-			KeyBindButton.HorizontalAlignment = "Right"
-			KeyBindButton.VerticalAlignment = "Center"
-			KeyBindButton.Radius = 7
-			KeyBindButton.TextSize = 18.5
-			KeyBindButton.PaddingTop = 1
-			KeyBindButton.BorderSizePixel = 0
-			KeyBindButton.BackgroundColor3 = Color3.fromHex("#2a2a48")
-			KeyBindButton.MouseButton1Click:Connect(function()
-			listening = true
-			KeyBindButton.Text = "..."
-			  local function onInputBegan(input, _gameProcessed)
-			  	 if listening == true then 
-			  	    keybind = input.KeyCode
-			  	    KeyBindButton.Text = keybind
-			  	    listening = false
-			  	 end
-
-				  if input.KeyCode == keybind then
-                    if Toggled then
-                        Toggled = false
-						CallbackFunction()
-                        local UnToggleTween = TweenService:Create(InnerCircle, TweenInfo.new(0.01), {Position = UDim2.new(0, 0, 0, 0)})
-						local UnToggleTweenColor = TweenService:Create(InnerCircle, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromHex("#fefefe")})
-						UnToggleTween:Play()
-						UnToggleTweenColor:Play()
-                    else
-                        Toggled = true
-						CallbackFunction()
-                        local ToggleTween = TweenService:Create(InnerCircle, TweenInfo.new(0.01), {Position = UDim2.new(0, 7, 0, 0)})
-						local UnToggleTweenColor = TweenService:Create(InnerCircle, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromHex("#5e1f9e")})
-						ToggleTween:Play()
-						UnToggleTweenColor:Play()
-                    end
-                 end
-			  end
-			 UserInputService.InputBegan:Connect(onInputBegan)
-			end)
-
-			Description.Parent = ItemButton
-			Description.Text = ItemDescription
-			Description.Font = Outfit
-			Description.TextSize = 16
-			Description.TextColor3 = Color3.fromHex("#27273b")
-			Description.Position = UDim2.new(0, 9, 0, 24)
-			
-			Circle.Size = UDim2.new(0, 7, 0, 7)
-			Circle.Position = UDim2.new(0, 9, 0, -5)
-			Circle.CornerRadius = CornerRadius.new(6, 6, 6, 6)
-			Circle.BackgroundColor3 = Color3.fromHex("#ddddf0")
-			Circle.BorderSizePixel = 0
-			Circle.VerticalAlignment = "Center"
-			
-			ItemButtonTitle.VerticalAlignment = "Center"
-			ItemButtonTitle.Position = UDim2.new(0, 22, 0, -4)
-			ItemButtonTitle.Text = Text
-			ItemButtonTitle.TextColor3 = Color3.fromHex("#ddddf0")
-			ItemButtonTitle.Font = Outfit_Medium
-			ItemButtonTitle.TextSize = 16
-			
-			OuterCircle.Size = UDim2.new(0, 16, 0, 7)
-			OuterCircle.Position = UDim2.new(0, -11, 0, 0)
-			OuterCircle.CornerRadius = CornerRadius.new(6,6, 6, 6)
-			OuterCircle.BackgroundColor3 = Color3.fromRGB(224, 224, 224)
-			OuterCircle.BorderSizePixel = 0
-			OuterCircle.VerticalAlignment = "Center"
-			OuterCircle.HorizontalAlignment = "Right"
-			
-			InnerCircle.Size = UDim2.new(0, 10, 0, 10)
-			InnerCircle.Position = UDim2.new(0, 0, 0, 0)
-			InnerCircle.CornerRadius = CornerRadius.new(10, 10, 10, 10)
-			InnerCircle.BackgroundColor3 = Color3.fromHex("#fefefe")
-			InnerCircle.BorderSizePixel = 0
-			InnerCircle.VerticalAlignment = "Center"
-			
-			OuterCircle.MouseButton1Click:Connect(function()
+			local UnToggleTween = TweenService:Create(InnerCircle, TweenInfo.new(0.01), {Position = UDim2.new(0, 0, 0, -2)})
+			local UnToggleTweenColor = TweenService:Create(InnerCircle, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromHex("#fefefe")})
+			local ToggleTween = TweenService:Create(InnerCircle, TweenInfo.new(0.01), {Position = UDim2.new(0, 7, 0, -2)})
+			local ToggleTweenColor = TweenService:Create(InnerCircle, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromHex("#5e1f9e")})
+			local function Toggle()
+				Toggled = not Toggled
 				if Toggled then
-					local UnToggleTween = TweenService:Create(InnerCircle, TweenInfo.new(0.01), {Position = UDim2.new(0, 0, 0, 0)})
-					local UnToggleTweenColor = TweenService:Create(InnerCircle, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromHex("#fefefe")})
+					ToggleTween:Play()
+					ToggleTweenColor:Play()
+				else
 					UnToggleTween:Play()
 					UnToggleTweenColor:Play()
-				else
-					local ToggleTween = TweenService:Create(InnerCircle, TweenInfo.new(0.01), {Position = UDim2.new(0, 7, 0, 0)})
-					local UnToggleTweenColor = TweenService:Create(InnerCircle, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromHex("#5e1f9e")})
-					ToggleTween:Play()
-					UnToggleTweenColor:Play()
 				end
-				Toggled = not Toggled
 				if CallbackFunction then
 					CallbackFunction(Toggled)
 				end
-			end)
+			end
+			OuterCircle.MouseButton1Click:Connect(Toggle)
+			--if OptionsMenu then
 			
-			KeyBindButton.Parent = ItemButton
-			ItemButton.Parent = ItemContainer
-			Circle.Parent = ItemButton
-			ItemButtonTitle.Parent = ItemButton
-			OuterCircle.Parent = ItemButton
-			InnerCircle.Parent = OuterCircle
+			
+			
+			local OFFSET = 0
+			local ELEMENT_COLOR = Color3.fromRGB(16,16,28)
+			local holder = create("Frame",{
+				Parent = ItemHolder,
+				Position = UDim2.new(0,OFFSET,0, 45),
+				Size = UDim2.new(1,-OFFSET/2,1,0),
+				BackgroundTransparency = 1
+			})
+			local uilistlayout = create("UIListLayout",{
+				Parent = holder,
+				Padding = UDim.new(0,5)
+			})
+
+
+			local DOTS_SIZE = 2
+			local DOTS_OFFSET = 4
+			local DOTS_START = 40 / 2 - 1 - DOTS_OFFSET
+
+
+			local thickness = 11
+			local buttonHolder = create("Frame",{
+				Parent = ItemButton,
+				Position = UDim2.new(1,-thickness/2,0,0),
+				Size = UDim2.new(0,thickness,1,0),
+				CornerRadius = CornerRadius.new(0,0,6,6),
+				BackgroundColor3 = Color3.fromRGB(22,22,34),
+				BorderSizePixel = 0
+			})
+			local dots = {}
+			for i=1,3 do
+				dots[i] = create("Frame",{
+					Parent = buttonHolder,
+					Size = UDim2.new(0,DOTS_SIZE, 0, DOTS_SIZE),
+					Position = UDim2.new(0.5, -0.5, 0, DOTS_START + DOTS_OFFSET * (i-1)),
+					BackgroundColor3 = Color3.fromRGB(45,45,75),
+					BorderSizePixel = 0,
+
+				})
+			end
+
+			local button = create("TextButton",{
+				Parent = buttonHolder,
+				Size = UDim2.new(1,0,1,0),
+				BackgroundTransparency = 1
+			})
+
+			local OptionsToggled = false
+			local function ToggleOptions()
+				OptionsToggled = not OptionsToggled
+				if OptionsToggled then
+					TweenService:Create(buttonHolder, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromHex("#5e1f9e")}):Play()
+					for i,v in pairs(dots) do
+						TweenService:Create(v, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(195,168,222)}):Play()
+					end
+					TweenService:Create(ItemHolder, TweenInfo.new(0.5), {Size = UDim2.new(0, 215, 0, 50 + math.max(20,uilistlayout.AbsoluteContentSize.Y))}):Play()
+				else
+					TweenService:Create(buttonHolder, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(22,22,34)}):Play()
+					for i,v in pairs(dots) do
+						TweenService:Create(v, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(45,45,75)}):Play()
+					end
+					TweenService:Create(ItemHolder, TweenInfo.new(0.5), {Size = UDim2.new(0, 215, 0, 41)}):Play()
+				end
+			end
+			button.MouseButton1Click:Connect(ToggleOptions)
+
+			local Menu = {}
+			function Menu._baseElement(title)
+				local base = create("Frame",{
+					Parent = holder,
+					Size = UDim2.new(1,0,0,20),
+					Radius = 5,
+					BackgroundColor3 = ELEMENT_COLOR,
+					BorderSizePixel = 0
+				})
+				local name = create("TextLabel",{
+					Parent = base,
+					Text = title,
+					Position = UDim2.new(0,5,0.5,-2),
+					TextSize = 16,
+					Font = Outfit_Medium
+				})
+				return base
+			end
+			function Menu:Keybind(options)
+				local UserInputService = game:GetService("UserInputService")
+				local name = options.Name or "Keybind"
+				local callback = options.Callback or Toggle
+
+				local listening = false
+				local keybind
+
+
+				local base = self._baseElement(name)
+
+				local button = create("TextButton",{
+					Parent = base,
+					Position = UDim2.new(1,-2,0.5,-3.6),
+					AnchorPoint = Vector2.new(1,0),
+					Size = UDim2.new(0,11,0,11),
+					Radius = 5,
+					BorderSizePixel = 0,
+					BackgroundColor3 = Color3.fromRGB(42,42,72),
+					TextColor3 = Color3.fromRGB(255,255,255),
+					TextSize = 18.5,
+					PaddingTop = 1
+				})
+				local function set(keycode)
+					keybind = keycode
+					listening = false
+					button.Text = keycode and keycode.Name or ""
+				end
+
+				button.MouseButton1Click:Connect(function()
+					keybind = nil
+					listening = true
+					button.Text = "..."
+				end)
+				local function onInputBegan(inputObject, _gameProcessed)
+					if _gameProcessed then return end
+					if not inputObject.KeyCode then return end
+					if inputObject.KeyCode.Name == "Unknown" then return end
+					if listening then
+						if inputObject.KeyCode == Enum.KeyCode.Escape or inputObject.KeyCode == Enum.KeyCode.Backspace then
+							set(nil)
+							return
+						end	
+					
+						set(inputObject.KeyCode)
+						--button.Size = UDim2.new(0,5+(12 * #button.Text),0,11)
+					elseif inputObject.KeyCode == keybind then
+						callback()
+					end
+				end
+				UserInputService.InputBegan:Connect(onInputBegan)
+				
+				return self
+			end
+			function Menu:Slider(options)
+				local UserInputService = game:GetService("UserInputService")
+				local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+
+				local name = options.Name or "Slider"
+				local callback = options.Callback or function() end
+
+				local min = options.Min or 0
+				local max = options.Max or 100
+				local current = options.Default or options.Current or min
+				local prefix = options.Prefix or ""
+
+				local base = self._baseElement(name)
+
+				local line = create("Frame",{
+					Parent = base,
+					Position = UDim2.new(1,-2,0.5,-0.5),
+					AnchorPoint = Vector2.new(1,0),
+					Size = UDim2.new(0,60,0,2),
+					BorderSizePixel = 0,
+					BorderColor3 = Color3.fromRGB(),
+					BackgroundColor3 = Color3.fromRGB(42,42,72)
+				})
+				local button = create("TextButton",{
+					Parent = line,
+					Size = UDim2.new(1,0,0,7),
+					AnchorPoint = Vector2.new(0,0.5),
+					Position = UDim2.new(0,0,0.5,0),
+					BackgroundTransparency = 1,
+					BorderSizePixel = 0
+				})
+				local current_filled = create("Frame",{
+					Parent = line,
+					Position = UDim2.new(0,0,0.5,0),
+					Size = UDim2.new(0.5,0,1,0),
+					AnchorPoint = Vector2.new(0,0.5),
+					BackgroundColor3 = Color3.fromRGB(72,72,102),
+					BorderSizePixel = 0
+				})
+				local current_frame = create("Frame",{
+					Parent = line,
+					Position = UDim2.new(0.5,0,0.5,0),
+					AnchorPoint = Vector2.new(0,0.5),
+					Size = UDim2.new(0,7,0,7),						
+					BorderSizePixel = 0,
+					BorderColor3 = Color3.fromRGB(),
+					BackgroundColor3 = Color3.fromRGB(72,72,102),
+					Radius = 14,
+					Draggable = true
+				})
+				local current_value = create("TextLabel",{
+					BackgroundTransparency = 1,
+					Parent = base,
+					Position = UDim2.new(1,-45,0.5,-1),
+					TextXAlignment = Enum.TextXAlignment.Right,
+					TextSize = 16,
+					Font = Outfit_Medium,
+					Text = current,
+				})
+
+				local sliding = false
+				local function valueFromRange(val)
+					local value = (max-min) * val + min
+					return value
+				end
+				local function rangeFromValue(value)
+					return (value - min) / (max - min)
+				end
+				local function set(value)
+					current = value
+					current_value.Text = string.format("%.2f%s", current,prefix)
+
+					current_frame.Position = UDim2.new(rangeFromValue(value),-1.75,0.5,0)
+					current_filled.Size = UDim2.new(rangeFromValue(value),0,1,0)
+					if callback then callback(value) end
+				end
+				set(current)
+				local function update()
+					local absolutePosition = line.AbsolutePosition.X
+					local absoluteSize = line.AbsoluteSize.X
+					local sliderX = (mouse.X / 2 - absolutePosition)
+					local range = math.min(1,math.max(sliderX/absoluteSize, 0))
+					set(valueFromRange(range), range)
+				end
+				button.MouseButton1Down:Connect(function()
+					sliding = true
+					Frame.Draggable = false
+					update()
+					UserInputService.InputChanged:Connect(function(inputObject, _gameProcessed)
+						if sliding and inputObject.UserInputType == Enum.UserInputType.MouseMovement then
+							update()
+						end
+					end)
+					UserInputService.InputEnded:Connect(function(inputObject, _gameProcessed)
+						if sliding and inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+							sliding = false
+							Frame.Draggable = true
+							update()
+						end
+					end)
+				end)
+				return self
+			end
+			function Menu:TextBox(options)
+				local name = options.Name or "Textbox"
+				local callback = options.Callback or function() end
+
+				local text = options.Text or ""
+				local editable = options.Editable
+				local placeholder = options.Placeholder or ""
+
+				local base = self._baseElement(name)
+				
+				local box = create("TextBox",{
+					Parent = base,
+					Position = UDim2.new(1,-2,0.5,0),
+					AnchorPoint = Vector2.new(1,0.5),
+					Size = UDim2.new(0,80,0,10),
+					TextEditable = editable,
+					Text = text,
+					PlaceholderText = placeholder,
+					Radius = 3,
+					TextSize = 16,
+					PaddingTop = 1,
+					--TextWrapped = true,
+					--ClearTextOnFocus = false,
+					BorderSizePixel = 0,
+					BackgroundColor3 = Color3.fromHex("#2a2a48"),
+					TextColor3 = Color3.fromHex("#ffffff"),
+				})
+				box.TextChanged:Connect(callback)
+				return self
+			end
+			
+			Menu:Keybind({
+				Name = "Keybind"
+			})
+			return Menu
+			--end
 		end
 
 		function Tab:NewTextBox(ToggleProperties)
@@ -415,22 +678,11 @@ function FluxLib:NewGui(GuiProperties)
 			local ItemContent = ToggleProperties.ItemContent or "TextBox"
 			local CallbackFunction = ToggleProperties.CallbackFunction
 			
-			local ItemButton = Instance.new("TextButton")
-			local Circle = Instance.new("Frame")
-			local ItemButtonTitle = Instance.new("TextLabel")
-			local Description = Instance.new("TextLabel")
+			local ItemButton, Circle, ItemButtonTitle = baseElement(ItemContainer, Text, ItemDescription)
 			local TextBox = Instance.new("TextBox")
-			
-			ItemButton.Size = UDim2.new(0, 215, 0, 40)
-			ItemButton.Font = Outfit_SemiBold
-			ItemButton.BorderSizePixel = 0
-			ItemButton.BackgroundColor3 = Color3.fromHex("#12121e")
-			ItemButton.CornerRadius = CornerRadius.new(6, 6, 6, 6)
 
 			TextBox.Size = UDim2.new(0, 50, 0, 15)
-			TextBox.Position = UDim2.new(0, -10, 0, 0)
-			TextBox.HorizontalAlignment = "Right"
-			TextBox.VerticalAlignment = "Center"
+			TextBox.Position = UDim2.new(1, -25, 0.5, -7)
 			TextBox.Radius = 10
 			TextBox.TextSize = 16
 			TextBox.PaddingTop = 1
@@ -445,29 +697,8 @@ function FluxLib:NewGui(GuiProperties)
 			end)
 			TextBox.Text = ToggleProperties.ItemContent
 
-			Description.Parent = ItemButton
-			Description.Text = ItemDescription
-			Description.TextSize = 14
-            Description.Font = Outfit
-			Description.TextColor3 = Color3.fromHex("#27273b")
-			Description.Position = UDim2.new(0, 9, 0, 24)
 			
-			Circle.Size = UDim2.new(0, 7, 0, 7)
-			Circle.Position = UDim2.new(0, 9, 0, -5)
-			Circle.CornerRadius = CornerRadius.new(6, 6, 6, 6)
-			Circle.BackgroundColor3 = Color3.fromHex("#d3d3d3")
-			Circle.BorderSizePixel = 0
-			Circle.VerticalAlignment = "Center"
-			
-			ItemButtonTitle.VerticalAlignment = "Center"
-			ItemButtonTitle.Position = UDim2.new(0, 22, 0, -4)
-			ItemButtonTitle.Text = Text
-			ItemButtonTitle.TextSize = 16
-			
-			Circle.Parent = ItemButton
 			TextBox.Parent = ItemButton
-			ItemButton.Parent = ItemContainer
-			ItemButtonTitle.Parent = ItemButton
 		end
 
 		GuiTabs[#GuiTabs + 1] = {Active = Active, TabItem = TabItem, ItemContainer = ItemContainer}
