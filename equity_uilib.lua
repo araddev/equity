@@ -12,7 +12,7 @@ end
 
 
 function FluxLib:NewGui(GuiProperties)
-	-- Fonts (loading them from discord and guilded cdn because im 2 lazy)
+	-- Fonts (loading them from Elysium cdn because im too lazy)
 	local GothamSSm = "https://forum.elysium.wtf/uploads/default/original/2X/b/b59cc03a78884ea608624fecbf919ed032c8fd3d.ttf"
 	local GothamSSm_Medium = "https://forum.elysium.wtf/uploads/default/original/2X/1/1112beb22b9344db1ff5f72791e6772e9f4b0b84.ttf"
 	local Poppins_SemiBold = "https://forum.elysium.wtf/uploads/default/original/2X/1/11cab7bae700c3ab30edf4ba5367d6dc808b1787.ttf"
