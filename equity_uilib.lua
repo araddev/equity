@@ -12,7 +12,7 @@ end
 
 
 function FluxLib:NewGui(GuiProperties)
-	-- Fonts (loading them from Elysium cdn because im too lazy)
+	-- Fonts (loading them from discord and guilded cdn because im 2 lazy)
 	local GothamSSm = "https://forum.elysium.wtf/uploads/default/original/2X/b/b59cc03a78884ea608624fecbf919ed032c8fd3d.ttf"
 	local GothamSSm_Medium = "https://forum.elysium.wtf/uploads/default/original/2X/1/1112beb22b9344db1ff5f72791e6772e9f4b0b84.ttf"
 	local Poppins_SemiBold = "https://forum.elysium.wtf/uploads/default/original/2X/1/11cab7bae700c3ab30edf4ba5367d6dc808b1787.ttf"
@@ -318,7 +318,7 @@ function FluxLib:NewGui(GuiProperties)
 					UnToggleTweenColor:Play()
 				end
 				if CallbackFunction then
-					CallbackFunction()
+					CallbackFunction(Toggled)
 				end
 			end)
 		end
@@ -584,7 +584,7 @@ function FluxLib:NewGui(GuiProperties)
 				local current_value = create("TextLabel",{
 					BackgroundTransparency = 1,
 					Parent = base,
-					Position = UDim2.new(1,-45,0.5,-1),
+					Position = UDim2.new(1,-35,0.5,-1),
 					TextXAlignment = Enum.TextXAlignment.Right,
 					TextSize = 16,
 					Font = Outfit_Medium,
@@ -634,6 +634,146 @@ function FluxLib:NewGui(GuiProperties)
 				end)
 				return self
 			end
+			function Menu:SliderRange(options)
+				local UserInputService = game:GetService("UserInputService")
+				local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+
+				local name = options.Name or "Slider"
+				local callback = options.Callback or function() end
+
+				local min = options.Min or 0
+				local max = options.Max or 100
+				local currentSliderMin = options.DefaultMin or min
+				local currentSliderMax = options.DefaultMax or min
+				local prefix = options.Prefix or ""
+
+				local base = self._baseElement(name)
+				
+				
+				local line = create("Frame",{
+					Parent = base,
+					Position = UDim2.new(1,-5,0.5,0),
+					AnchorPoint = Vector2.new(1,0),
+					Size = UDim2.new(0,60,0,2),
+					BorderSizePixel = 0,
+					BorderColor3 = Color3.fromRGB(),
+					BackgroundColor3 = Color3.fromRGB(42,42,72)
+				})
+				local current_filled = create("Frame",{
+					Parent = line,
+					Position = UDim2.new(0,0,0.5,0),
+					Size = UDim2.new(0.5,0,1,0),
+					AnchorPoint = Vector2.new(0,0.5),
+					BackgroundColor3 = Color3.fromRGB(72,72,102),
+					BorderSizePixel = 0
+				})
+				local current_min = create("ImageButton",{
+					Parent = line,
+					Position = UDim2.new(0,0,0,1),
+					AnchorPoint = Vector2.new(0,0.5),
+					Size = UDim2.new(0,7,0,7),						
+					BorderSizePixel = 0,
+					BorderColor3 = Color3.fromRGB(),
+					ImageColor3 = Color3.fromRGB(72,72,102),
+					BackgroundTransparency = 1,
+					Draggable = true,
+					Image = "https://forum.elysium.wtf/uploads/default/original/2X/0/0fae326c4563d0498b864dc0ec03185e6e588ff6.png"
+				})
+				local current_max = create("ImageButton",{
+					Parent = line,
+					Position = UDim2.new(1,0,0,1),
+					AnchorPoint = Vector2.new(0,0.5),
+					Size = UDim2.new(0,7,0,7),						
+					BorderSizePixel = 0,
+					BorderColor3 = Color3.fromRGB(),
+					ImageColor3 = Color3.fromRGB(72,72,102),
+					BackgroundTransparency = 1,
+					Draggable = true,
+					Image = "https://forum.elysium.wtf/uploads/default/original/2X/0/0fae326c4563d0498b864dc0ec03185e6e588ff6.png",
+					Rotation = 180,
+				})
+				local current_value = create("TextLabel",{
+					BackgroundTransparency = 1,
+					Parent = base,
+					Position = UDim2.new(1,-40,0.5,-1),
+					TextXAlignment = Enum.TextXAlignment.Right,
+					TextSize = 16,
+					Font = Outfit_Medium,
+					Text = "",
+				})
+				local slidingMin = false
+				local slidingMax = false
+				local function valueFromRange(val)
+					local value = (max-min) * val + min
+					return value
+				end
+				local function rangeFromValue(value)
+					return (value - min) / (max - min)
+				end
+				local function set(min,max)
+					currentSliderMin = min
+					currentSliderMax = max
+					local scaledMin = rangeFromValue(min)
+					local scaledMax = rangeFromValue(max)
+					current_filled.Position = UDim2.new(scaledMin,0, 0.5,0)
+					current_filled.Size = UDim2.new(scaledMax - scaledMin,0, 1,0)
+					
+					current_max.Position = UDim2.new(scaledMax,0,0,1)
+					current_min.Position = UDim2.new(scaledMin,-3.5,0,1)
+					
+					current_value.Text = string.format("%d - %d", min, max)
+					if callback then callback(min, max) end
+				end
+				set(currentSliderMin, currentSliderMax)
+				local function update()
+					local absolutePosition = line.AbsolutePosition.X
+					local absoluteSize = line.AbsoluteSize.X
+					local sliderX = (mouse.X / 2 - absolutePosition)
+					local range = math.min(1,math.max(sliderX/absoluteSize, 0))
+				
+					local min = currentSliderMin
+					local max = currentSliderMax
+					if slidingMin then
+						min = valueFromRange(range)
+					elseif slidingMax then
+						max = valueFromRange(range)
+					end
+					if min > max then
+						if slidingMin then
+							min = max
+						else
+							max = min
+						end
+					end
+					
+					set(min,max)
+				end
+				local function start()
+					Frame.Draggable = false
+					update()
+					UserInputService.InputChanged:Connect(function(inputObject, _gameProcessed)
+						if (slidingMin or slidingMax) and inputObject.UserInputType == Enum.UserInputType.MouseMovement then
+							update()
+						end
+					end)
+					UserInputService.InputEnded:Connect(function(inputObject, _gameProcessed)
+						if (slidingMin or slidingMax)  and inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+							slidingMin = false
+							slidingMax = false
+							Frame.Draggable = true
+							update()
+						end
+					end)
+				end
+				current_min.MouseButton1Down:Connect(function()
+					slidingMin = true
+					start()
+				end)				
+				current_max.MouseButton1Down:Connect(function()
+					slidingMax = true
+					start()
+				end)
+			end	
 			function Menu:TextBox(options)
 				local name = options.Name or "Textbox"
 				local callback = options.Callback or function() end
@@ -707,5 +847,4 @@ function FluxLib:NewGui(GuiProperties)
 	
 	return Gui
 end
-
 return FluxLib

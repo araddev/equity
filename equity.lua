@@ -3,6 +3,7 @@ local FluxLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/aradd
 local Workspace = game:GetService("Workspace")
 local EntityService = game:GetService("EntityService")
 local PacketService = game:GetService("PacketService")
+local LightingService = game:GetService("Lighting")
 local ChatService = game:GetService("Chat")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Time = os.time()
@@ -32,6 +33,7 @@ local UI = Gui:NewTab({
 time = os.time()
 
 
+local Fullbright, prevBrightness = false, nil
 local Eagle = false
 local Killaura = false
 local ReachToggle = false
@@ -83,7 +85,17 @@ Tab1:NewToggle({
         
     end
 })
-
+Tab1:NewToggle({
+	Text = "Fullbright",
+	ItemDescription = "Gives you night vision",
+	CallbackFunction = function(Callback)
+		Fullbright = Callback
+		if Callback == false and prevBrightness ~= nil then
+			LightingService.Brightness = prevBrightness
+			prevBrightness = nil
+		end
+	end
+})
 
 Tab1:NewToggle({
 	Text = "AutoClicker",
@@ -148,7 +160,9 @@ Tab1:NewToggle({
 	end,
 	OptionsMenu = true
 })
-
+local killauraCooldown = 200
+local killauraCooldownMin = 200
+local killauraCooldownMax = 300
 Tab2:NewToggle({
 	Text = "Kill Aura",
 	ItemDescription = "Automatically kills people and shit",
@@ -156,7 +170,18 @@ Tab2:NewToggle({
 		Killaura = not Killaura
 	end,
 	OptionsMenu = true
+}):SliderRange({
+	Name = "Cooldown (MS)",
+	Min = 200,
+	Max = 500,
+	DefaultMin = killauraCooldownMin,
+	DefaultMax = killauraCooldownMax,
+	Callback = function(min, max)
+		killauraCooldownMin = min
+		killauraCooldownMax = max
+	end
 })
+
 
 Tab2:NewToggle({
 	Text = "Scaffold",
@@ -346,7 +371,7 @@ function AttackClosest()
     for _, Entity in ipairs(Entities) do
         --print(Entity:getName())
         local distance = localPlayer:GetDistanceToEntity(Entity.entityObject)
-		if (distance < closestDistance) and (Entity.entityObject ~= PlayerEntity) and (not localPlayer:IsOnSameTeam(Entity.entityObject)) then
+		if (distance < closestDistance) and (Entity.entityObject ~= PlayerEntity) then
             closestDistance = distance
             closestEntity = Entity
         end
@@ -361,7 +386,7 @@ function AttackClosest()
     local pitch = localPlayer:GetPitch()
 
     local moveYaw = GetYawChange(yaw, closestEntity:GetPosX(), closestEntity:GetPosZ())
-    local movePitch = GetPitchChange(pitch, closestEntity:GetPosX(), closestEntity:GetPosY(), closestEntity:GetPosZ())
+    local movePitch = GetPitchChange(pitch, closestEntity:GetPosX(), closestEntity:GetPosY()-0.5, closestEntity:GetPosZ())
 
     local gcd = 0.2
 
@@ -457,46 +482,34 @@ function DoVelocity()
         LocalPlayer.Character:SetMotionX(0)
     end
 end
-function Attack(entity, shouldTeleport)
+function Attack(entity)
 	if (Time < os.time()) then
 		local Character = LocalPlayer.Character
-		local x,y,z
-		if shouldTeleport then
-			x = Character:GetPosX()
-			y = Character:GetPosY()
-			z = Character:GetPosZ()
-			PacketService:SendPacket("C04", { entity:GetPosX(), entity:GetPosY(), entity:GetPosZ(), true })
-			wait(1/15)
-			return
-		end
 		
-        --localPlayer:Swing()
+        Character:Swing()
         math.randomseed(os.time())
-        Time = os.time() + 100 + math.random(0, 100)
-        PacketService:SendPacket("C02", { entity.entityObject, localPlayer.Attack })
-		
-		--[[if shouldTeleport then
-			wait(1/15)
-			PacketService:SendPacket("C04", { x,y,z, true })
-		end--]]
+        Time = os.time() + math.random(killauraCooldownMin, killauraCooldownMax)
+        PacketService:SendPacket("C02", { entity.entityObject, Character.Attack })
     end
 end
 function DoReach()
 	local entity = LocalPlayer:Reach(ReachRange)
-	print(entity, ReachRange)
-	if(entity) then
-		local distance = entity.getDistanceToEntity(LocalPlayer.Character.entityObject) + 0.3
-		print(entity, ReachRange, distance)
-		if(distance > 3 and distance <= ReachRange) then
-			PacketService:SendPacket("C02", { entity.entityObject, localPlayer.Attack })
-		end
-	end--]]
+	if entity then
+		Attack(entity)
+	end
 end
 function DoCrit()
 	local x,y,z = LocalPlayer.Character:GetPosX(), LocalPlayer.Character:GetPosY(), LocalPlayer.Character:GetPosZ()
 	PacketService:SendPacket("C04", {x, y + 0.0625,z, true})
 	PacketService:SendPacket("C04", {x, y, z, false})
 	PacketService:SendPacket("C04", {x, y + 1.1E-5D,z, false})
+end
+
+function DoFullbright()
+	if LightingService.Brightness ~= 10 then
+		prevBrightness = LightingService.Brightness -- sets it to 10 idk why
+		LightingService.Brightness = 10
+	end
 end
 Script.MouseClick1:Connect(function(e)
 	--DoCrit()
@@ -527,4 +540,7 @@ Script.Update:Connect(function()
     if SumoWalls then
         doSumoWalls()
     else clearGhostBlocks() end
+	if Fullbright then
+		DoFullbright()
+	end
 end)
