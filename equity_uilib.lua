@@ -677,7 +677,7 @@ function FluxLib:NewGui(GuiProperties)
 					ImageColor3 = Color3.fromRGB(72,72,102),
 					BackgroundTransparency = 1,
 					Draggable = true,
-					Image = "https://forum.elysium.wtf/uploads/default/original/2X/0/0fae326c4563d0498b864dc0ec03185e6e588ff6.png"
+					Image = "https://forum.elysium.wtf/uploads/default/original/2X/a/a40e484e4824eac3baa2c7b3d54f33c79bb3251e.png"
 				})
 				local current_max = create("ImageButton",{
 					Parent = line,
@@ -689,7 +689,7 @@ function FluxLib:NewGui(GuiProperties)
 					ImageColor3 = Color3.fromRGB(72,72,102),
 					BackgroundTransparency = 1,
 					Draggable = true,
-					Image = "https://forum.elysium.wtf/uploads/default/original/2X/0/0fae326c4563d0498b864dc0ec03185e6e588ff6.png",
+					Image = "https://forum.elysium.wtf/uploads/default/original/2X/a/a40e484e4824eac3baa2c7b3d54f33c79bb3251e.png",
 					Rotation = 180,
 				})
 				local current_value = create("TextLabel",{
