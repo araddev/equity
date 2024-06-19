@@ -192,7 +192,7 @@ Tab2:NewToggle({
 	OptionsMenu = true
 })
 
-local DEFAULT_TYPE = "iron_ore"
+local DEFAULT_TYPE = "barrier"
 local WALL_HEIGHT = 3
 local MIN_GAP_HEIGHT = 3
 
