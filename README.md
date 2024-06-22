@@ -15,7 +15,7 @@ https://discord.gg/vapev4
  - [x] eagle<br>
  - [x] scaffold<br>
  - [x] reach<br> 
- - [ ] sumowalls<br>
+ - [x] sumowalls<br>
  - [ ] Wtap<br>
  - [x] make ui lib<br>
  - [ ] velocity<br>
@@ -24,4 +24,4 @@ https://discord.gg/vapev4
  - [ ] add an arraylist<br>
  - [ ] add a watermark<br>
  - [ ] add teamcheck to killaura<br>
- - [ ] use the keys name instead of they keys number in keybind button<br>
+ - [x] use the keys name instead of the keys number in keybind button<br>
